@@ -158,7 +158,7 @@ h1,h2,h3{font-weight:600;letter-spacing:-.02em;line-height:1.2;margin:0;text-wra
 .cta{position:fixed;z-index:24;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + var(--barra) + var(--e2));translate:-50% 0;display:flex;align-items:center;justify-content:center;gap:var(--e2);height:48px;padding:0 var(--e6);border:0;border-radius:var(--r-pildora);background:var(--tinta);color:var(--sobre-tinta);font-weight:500;font-size:15px;white-space:nowrap;box-shadow:var(--sombra-2);transition:transform var(--t-micro) var(--salida)}
 .cta:active{transform:scale(.97)}
 .cta svg{width:14px;height:14px}
-body:not([data-tab="ruta"]) .cta{display:none}
+body:not([data-vista="ruta"]) .cta{display:none}
 
 /* hojas desde abajo */
 .scrim{position:fixed;inset:0;background:var(--velo);z-index:40;display:flex;align-items:flex-end;justify-content:center;animation:fade-in var(--t-medio) var(--salida)}
@@ -313,8 +313,8 @@ body:has(.scrim) .toast{bottom:auto;top:calc(env(safe-area-inset-top,0px) + var(
 @keyframes entra{from{opacity:0;transform:translateY(10px)}}
 
 /* riel negro: un anillo por ruta con su avance; la elegida se ilumina */
-body:not([data-tab="ruta"]) .top{display:none}
-body:not([data-tab="ruta"]) main{padding-top:calc(env(safe-area-inset-top,0px) + var(--e5))}
+body:not([data-vista="ruta"]) .top{display:none}
+body:not([data-vista="ruta"]) main{padding-top:calc(env(safe-area-inset-top,0px) + var(--e5))}
 .riel{display:flex;gap:var(--e1);padding:var(--e1);background:var(--tinta);border-radius:var(--r-pildora);box-shadow:var(--sombra-2)}
 .riel button{display:flex;align-items:center;gap:var(--e2);height:44px;padding:0 var(--e4) 0 var(--e1);border:0;border-radius:var(--r-pildora);background:transparent;color:var(--sobre-tinta-2);text-align:left;transition:transform var(--t-micro) var(--salida)}
 .riel button:active{transform:scale(.97)}
@@ -369,8 +369,9 @@ body:not([data-tab="ruta"]) main{padding-top:calc(env(safe-area-inset-top,0px) +
 @media (min-width:1000px){
  html{scrollbar-gutter:auto}
  body{overflow:hidden}
- .fondo{top:var(--e3);left:var(--e3);right:var(--e3);bottom:var(--e3);height:auto;border-radius:var(--r-panel);background:linear-gradient(180deg,var(--vidrio-arriba),transparent 60%),radial-gradient(45% 50% at 0% 100%,var(--brillo-1),transparent 70%),var(--panel)}
- .app{position:fixed;top:var(--e5);right:var(--e5);bottom:var(--e5);left:248px;max-width:none;margin:0;overflow-y:auto;scrollbar-width:thin;background:var(--tarjeta);border-radius:var(--r-tarjeta);box-shadow:var(--sombra-2);padding:0 var(--e8) var(--e12)}
+ .fondo{top:0;left:0;right:auto;bottom:0;width:240px;height:auto;border-radius:0;background:linear-gradient(180deg,var(--vidrio-arriba),transparent 60%),radial-gradient(45% 50% at 0% 100%,var(--brillo-1),transparent 70%),var(--panel)}
+ /* a ras de la ventana del navegador: la barra lateral es la franja de vidrio y el contenido llena el resto; nada de ventana dentro de otra */
+ .app{position:fixed;top:0;right:0;bottom:0;left:240px;max-width:none;margin:0;overflow-y:auto;background:var(--tarjeta);border-radius:0;padding:0 var(--e8) var(--e12)}
  /* dentro de la ventana blanca, los bloques bajan a --hundido y lo que iba hundido sube a blanco */
  .app .card,.app .hero,.app .unidad{background:var(--hundido);box-shadow:none}
  .app .hero .next,.app .glos .ex,.app .card code,.app .hero .next code{background:var(--tarjeta)}
@@ -382,12 +383,12 @@ body:not([data-tab="ruta"]) main{padding-top:calc(env(safe-area-inset-top,0px) +
  .app .goalpick,.app .themepick{background:var(--hundido)}
  .app>*{max-width:760px;margin-left:auto;margin-right:auto}
  .top{position:static;background:transparent;padding-top:var(--e6)}
- body:not([data-tab="ruta"]) main{padding-top:var(--e8)}
+ body:not([data-vista="ruta"]) main{padding-top:var(--e8)}
  .saludo{flex-direction:row;align-items:flex-end;justify-content:space-between;padding-top:var(--e4)}
  .saludo h1{font-size:36px}
  .saludo-cifras{display:flex;gap:var(--e8);flex:none}
  .cuenta{position:static;margin-left:auto}
- .tabs{top:var(--e3);bottom:var(--e3);left:var(--e3);right:auto;width:224px;padding:var(--e4) var(--e3);background:transparent;border-radius:var(--r-panel);pointer-events:auto}
+ .tabs{top:0;bottom:0;left:0;right:auto;width:240px;padding:var(--e5) var(--e3) var(--e4);background:transparent;border-radius:0;pointer-events:auto}
  .tabs div{max-width:none;height:100%;display:flex;flex-direction:column;gap:var(--e1);background:transparent;-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:none;padding:0;border-radius:0}
  .tabs .glide{top:0;bottom:auto;left:0;right:0;width:auto;height:var(--h,36px);transform:translateY(var(--y,0px));transition:transform var(--t-medio) var(--vaiven),height var(--t-medio) var(--vaiven)}
  .marca{display:flex;align-items:center;gap:var(--e3);padding:var(--e1) var(--e3) var(--e2);font-weight:600;font-size:15px;letter-spacing:-.01em;color:var(--tinta)}
@@ -415,7 +416,7 @@ body:not([data-tab="ruta"]) main{padding-top:calc(env(safe-area-inset-top,0px) +
  #view:has(.lib-group){display:grid;grid-template-columns:1fr 1fr;gap:var(--e3);align-items:start}
  #view:has(.lib-group)>h2,#view:has(.lib-group)>p{grid-column:1/-1}
  #view:has(.lib-group) .lib-group{margin-top:0}
- .toast{bottom:var(--e8);left:calc(50% + 124px)}
+ .toast{bottom:var(--e8);left:calc(50% + 120px)}
 }
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:fade-in 120ms both!important;transition:opacity 120ms!important}}
 </style>
@@ -1188,7 +1189,7 @@ addEventListener('resize',()=>renderTop());
 let cta=null; // lección que abre la píldora negra del móvil
 function render(enter){
   renderTop();
-  document.body.dataset.track=S.track; document.body.dataset.tab=tab;
+  document.body.dataset.track=S.track; document.body.dataset.vista=tab;
   const v=$('#view'); cta=null;
   v.classList.remove('entra'); if(enter){void v.offsetWidth; v.classList.add('entra');}
   if(tab==='ruta') v.innerHTML=renderPath();
