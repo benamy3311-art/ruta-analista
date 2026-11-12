@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<script>try{var t=localStorage.getItem('ruta-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}</script>
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#1d3557">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -45,31 +46,31 @@
   --r:28px;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#0e1a2b; --panel:#13233a; --surface:#172a45; --surface-2:#1f3554; --fill-strong:#2a4366; --line:#243b5c;
-  --fg:#f7f2e8; --muted:#a9b4c6; --faint:#6f7f98;
-  --accent:#f7f2e8; --on-accent:#1d3557; --on-accent-2:rgba(29,53,87,.72); --on-accent-track:rgba(29,53,87,.1);
+  --bg:#0a0a0a; --panel:#111111; --surface:#171717; --surface-2:#232323; --fill-strong:#2f2f2f; --line:#262626;
+  --fg:#f7f2e8; --muted:#a6a39c; --faint:#6b6964;
+  --accent:#f7f2e8; --on-accent:#111111; --on-accent-2:rgba(17,17,17,.66); --on-accent-track:rgba(17,17,17,.08);
   --sel-a:#e63946; --sel-b:#f0554a; --on-sel:#ffffff;
-  --cyber:#6a97d6; --cyber-deep:#4f7fc0; --cyber-soft:#1f3554;
-  --eng:#ef5a5a; --eng-deep:#d62839; --eng-soft:#44222c;
-  --gold:#ef5a5a; --gold-deep:#e8545a; --flame:#ef5a5a; --ice:#7fb0e6;
-  --ok:#6a97d6; --danger:#e63946; --lock:#2a4366; --lock-deep:#6f7f98;
-  --scrim:rgba(4,10,20,.6);
-  --shadow-soft:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.24);
-  --shadow-knob:0 1px 3px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.06);
+  --cyber:#7c9cc8; --cyber-deep:#5f82b3; --cyber-soft:#232323;
+  --eng:#ef5a5a; --eng-deep:#d62839; --eng-soft:#3a1d20;
+  --gold:#ef5a5a; --gold-deep:#f0706f; --flame:#ef5a5a; --ice:#8fb6e0;
+  --ok:#7c9cc8; --danger:#e63946; --lock:#2a2a2a; --lock-deep:#6b6964;
+  --scrim:rgba(0,0,0,.65);
+  --shadow-soft:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.3);
+  --shadow-knob:0 1px 3px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.07);
   --gloss:inset 0 1px 0 rgba(255,255,255,.3);
   color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#0e1a2b; --panel:#13233a; --surface:#172a45; --surface-2:#1f3554; --fill-strong:#2a4366; --line:#243b5c;
-  --fg:#f7f2e8; --muted:#a9b4c6; --faint:#6f7f98;
-  --accent:#f7f2e8; --on-accent:#1d3557; --on-accent-2:rgba(29,53,87,.72); --on-accent-track:rgba(29,53,87,.1);
+  --bg:#0a0a0a; --panel:#111111; --surface:#171717; --surface-2:#232323; --fill-strong:#2f2f2f; --line:#262626;
+  --fg:#f7f2e8; --muted:#a6a39c; --faint:#6b6964;
+  --accent:#f7f2e8; --on-accent:#111111; --on-accent-2:rgba(17,17,17,.66); --on-accent-track:rgba(17,17,17,.08);
   --sel-a:#e63946; --sel-b:#f0554a; --on-sel:#ffffff;
-  --cyber:#6a97d6; --cyber-deep:#4f7fc0; --cyber-soft:#1f3554;
-  --eng:#ef5a5a; --eng-deep:#d62839; --eng-soft:#44222c;
-  --gold:#ef5a5a; --gold-deep:#e8545a; --flame:#ef5a5a; --ice:#7fb0e6;
-  --ok:#6a97d6; --danger:#e63946; --lock:#2a4366; --lock-deep:#6f7f98;
-  --scrim:rgba(4,10,20,.6);
-  --shadow-soft:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.24);
-  --shadow-knob:0 1px 3px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.06);
+  --cyber:#7c9cc8; --cyber-deep:#5f82b3; --cyber-soft:#232323;
+  --eng:#ef5a5a; --eng-deep:#d62839; --eng-soft:#3a1d20;
+  --gold:#ef5a5a; --gold-deep:#f0706f; --flame:#ef5a5a; --ice:#8fb6e0;
+  --ok:#7c9cc8; --danger:#e63946; --lock:#2a2a2a; --lock-deep:#6b6964;
+  --scrim:rgba(0,0,0,.65);
+  --shadow-soft:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.3);
+  --shadow-knob:0 1px 3px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.07);
   --gloss:inset 0 1px 0 rgba(255,255,255,.3);
   color-scheme:dark}
 *{box-sizing:border-box}
@@ -240,6 +241,10 @@ main>.section-h:first-child{margin-top:6px}
 .qbtn.done{background:var(--sel-fill);box-shadow:var(--gloss);color:var(--on-sel)}
 .qbtn.pop{animation:pop var(--dur-spring) var(--ease-spring)}
 @keyframes pop{from{transform:scale(.55)}}
+.themepick{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;background:var(--fill-strong);border-radius:999px;padding:4px}
+.themepick button{border:0;background:transparent;border-radius:999px;height:40px;font-weight:600;font-size:14px;color:var(--muted);transition:background-color var(--dur-fast),color var(--dur-fast),scale var(--dur-spring) var(--ease-spring)}
+.themepick button:active{scale:.95}
+.themepick button[aria-pressed="true"]{background:var(--surface);color:var(--fg);box-shadow:var(--shadow-knob)}
 .goalpick{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 .goalpick button{display:flex;align-items:center;gap:10px;text-align:left;border:0;background:var(--surface);box-shadow:var(--shadow-soft);border-radius:18px;padding:12px 14px;font-weight:600}
 .goalpick button:active{scale:.97}
@@ -1126,6 +1131,8 @@ function renderProfile(){
   <p class="hint" style="margin:10px 0 0">Si un día no llegas a la meta, un protector cuida tu racha. Ganas uno cada 7 días de racha, hasta 2.</p></div>
   <h2 class="section-h">Meta diaria</h2><p class="sub">Una tarea da 10 XP, una prueba 30 y cada sesión de 25 min 10. Normal son dos sesiones al día.</p>
   <div class="goalpick" role="group" aria-label="Meta diaria">${[[10,'Suave'],[20,'Normal'],[40,'Seria'],[60,'Intensa']].map(([g,n])=>`<button data-goal="${g}" aria-pressed="${S.goal===g}"><span>${n}<small>${g} XP al día</small></span><i class="radio"></i></button>`).join('')}</div>
+  <h2 class="section-h">Apariencia</h2><p class="sub">Automático sigue el modo claro u oscuro de tu dispositivo.</p>
+  <div class="themepick" role="group" aria-label="Tema">${[['light','Claro'],['dark','Oscuro'],['auto','Automático']].map(([v,n])=>`<button data-theme-set="${v}" aria-pressed="${(S.theme||'auto')===v}">${n}</button>`).join('')}</div>
   <h2 class="section-h">Reiniciar</h2><p class="sub">Borra todo el progreso de esta app.</p>
   <button class="btn ghost" data-reset="1">Borrar progreso</button>`;
 }
@@ -1205,10 +1212,20 @@ document.addEventListener('click',e=>{
 });
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeSheet();document.querySelector('.celebrate')?.remove()}});
 
+/* ---------- tema ---------- */
+function applyTheme(){
+  const t=S.theme||'auto', r=document.documentElement;
+  if(t==='auto') delete r.dataset.theme; else r.dataset.theme=t;
+  try{ if(t==='auto') localStorage.removeItem('ruta-theme'); else localStorage.setItem('ruta-theme',t); }catch(e){}
+  const dark=t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme: dark)').matches);
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content',dark?'#0a0a0a':'#1d3557');
+}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-theme-set]');if(!b)return;S.theme=b.dataset.themeSet;applyTheme();save();render()});
+
 /* ---------- boot ---------- */
 function boot(saved){
   if(saved&&saved.v===1) S=Object.assign(structuredClone(DEFAULT),JSON.parse(JSON.stringify(saved)));
-  reconcile(); render();
+  reconcile(); applyTheme(); render();
   if(!S.seenIntro && !document.querySelector('.scrim')) introSheet();
 }
 try{const raw=localStorage.getItem('ruta-analista'); boot(raw?JSON.parse(raw):null)}catch(e){boot(null)}
