@@ -3,6 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#1d3557">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Ruta">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icon-192.png">
 </head>
 <body>
 <title>Ruta Analista</title>
@@ -297,6 +305,27 @@ body:has(.scrim) .toast{bottom:auto;top:calc(env(safe-area-inset-top,0px) + 14px
  .btn.danger:hover{background:color-mix(in oklab,var(--danger),#fff 12%)}
  .node:not(:active):hover{scale:1.06}
  .chips button:not([aria-pressed="true"]):hover,.goalpick button:not([aria-pressed="true"]):hover{box-shadow:var(--shadow-knob)}
+}
+/* ---------- versión PC: barra lateral a la izquierda, contenido más ancho ---------- */
+@media (min-width:1000px){
+ body{padding-left:240px}
+ .app{max-width:760px;padding-bottom:56px}
+ .tabs{top:0;bottom:0;left:0;right:auto;width:240px;padding:20px 14px;background:var(--panel);box-shadow:inset -1px 0 0 var(--line)}
+ .tabs::before{content:"Ruta Analista";display:block;font-family:var(--f-display);font-weight:700;font-size:20px;color:var(--fg);padding:8px 14px 22px}
+ .tabs div{max-width:none;display:flex;flex-direction:column;gap:4px;background:transparent;box-shadow:none;padding:0;border-radius:0}
+ .tabs .glide{top:0;bottom:auto;left:0;right:0;width:auto;height:52px;border-radius:16px;background:var(--surface);box-shadow:var(--shadow-soft);transform:translateY(calc(var(--i,0)*56px))}
+ .tabs button{flex-direction:row;justify-content:flex-start;gap:14px;height:52px;padding:0 14px;font-size:15px;border-radius:16px}
+ .tabs button svg{width:22px;height:22px}
+ .tabs button:active{scale:.97}
+ .top{min-height:72px}
+ .hero{padding:26px} .hero h2{font-size:26px}
+ .stats{grid-template-columns:repeat(4,minmax(0,1fr))}
+ .goalpick{grid-template-columns:repeat(4,minmax(0,1fr))}
+ #view:has(.lib-group){display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
+ #view:has(.lib-group)>h2,#view:has(.lib-group)>p{grid-column:1/-1}
+ #view:has(.lib-group) .lib-group{margin-top:0}
+ .toast{bottom:32px;left:calc(50% + 120px)}
+ .path{gap:24px}
 }
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
@@ -1255,5 +1284,6 @@ if(!window.claude && /^https?:$/.test(location.protocol)){
 }
 </script>
 
+<script>if('serviceWorker' in navigator && /^https?:$/.test(location.protocol) && !window.claude) navigator.serviceWorker.register('sw.js').catch(()=>{});</script>
 </body>
 </html>
