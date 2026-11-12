@@ -351,6 +351,7 @@ const U={
  nb:'https://www.netacad.com/es/courses/networking-basics', pn:'https://www.youtube.com/playlist?list=PLIFyRwBY_4bRLmKfP1KnZA6rZbRHtxmXi', ccna:'https://www.youtube.com/playlist?list=PLxbwE86jKRgMpuZuLBivzlM8s2Dk5lXBQ',
  bandit:'https://overthewire.org/wargames/bandit/', cs101:'https://tryhackme.com/path/outline/cybersecurity101', soc:'https://tryhackme.com/path/outline/soclevel1',
  messer:'https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/sy0-701-comptia-security-plus-course/', ld:'https://app.letsdefend.io/', cd:'https://cyberdefenders.org/blueteam-ctf-challenges/',
+ secplus:'https://www.comptia.org/certifications/security', pm:'https://www.professormesser.com/', sc900:'https://learn.microsoft.com/en-us/credentials/certifications/security-compliance-and-identity-fundamentals/', sc200:'https://learn.microsoft.com/en-us/credentials/certifications/security-operations-analyst/', kql:'https://github.com/rod-trent/MustLearnKQL', atbs:'https://automatetheboringstuff.com/', sigma:'https://github.com/SigmaHQ/sigma', vt:'https://docs.virustotal.com/reference/overview', owaspllm:'https://genai.owasp.org/llm-top-10/', gandalf:'https://gandalf.lakera.ai/', psllm:'https://portswigger.net/web-security/llm-attacks', nistai:'https://www.nist.gov/itl/ai-risk-management-framework', art:'https://github.com/redcanaryco/atomic-red-team', wazuh:'https://wazuh.com/', btlo:'https://blueteamlabs.online/', cysa:'https://www.comptia.org/certifications/cybersecurity-analyst',
  ccst:'https://www.cisco.com/site/us/en/learn/training-certifications/exams/ccst-cybersecurity.html', p:'https://platzi.com/cursos/', efset:'https://www.efset.org/ef-set-50/'
 };
 const pz=(slug,t)=>L(U.p+slug+'/',t);
@@ -474,6 +475,32 @@ cyber:{name:'Ciberseguridad',units:[
    ['Día libre: te lo ganaste.','g']
   ]}
  ]},
+ {title:'Security+',goal:'La certificación de entrada más pedida en las ofertas de trabajo. Con ella pasas los filtros de recursos humanos.',tip:`CompTIA estrena la versión SY0-801 hacia finales de 2026 y la 701 sigue un tiempo más; las dos dan la misma certificación, válida 3 años. Estudia la versión que vayas a presentar: ${L(U.pm,'Professor Messer')} publica gratis el curso de cada una. El examen cuesta unos USD 425; confirma el precio en ${L(U.secplus,'CompTIA')}.`,lessons:[
+  {title:'Conceptos y amenazas',tasks:[
+   [`Curso gratis de ${L(U.pm,'Professor Messer')}: dominios 1 y 2, conceptos generales y amenazas, vulnerabilidades y mitigaciones.`],
+   ['Pasa a Anki cada término nuevo, en inglés.'],
+   ['Retos de criptografía en la Challenge Library de CyLab.','g']
+  ]},
+  {title:'Arquitectura y operaciones',tasks:[
+   ['Professor Messer: dominios 3 y 4, arquitectura de seguridad y operaciones de seguridad.'],
+   ['Separa la fecha del examen: un mes después de hoy.'],
+   ['Alertas de LetsDefend o una sala de TryHackMe del tema que menos domines.','g']
+  ]},
+  {title:'Gobierno y riesgo',tasks:[
+   ['Professor Messer: dominio 5, gestión y supervisión del programa de seguridad (riesgo, cumplimiento, auditorías).'],
+   ['Escribe en inglés, en una página, cómo harías el análisis de riesgo de una tienda en línea pequeña.']
+  ]},
+  {title:'Simulacros',tasks:[
+   ['Dos exámenes de práctica completos con tiempo (los de Professor Messer o los de Jason Dion). Meta: 85% o más.'],
+   ['Repasa cada pregunta que fallaste y vuelve a ver ese video.'],
+   ['Practica las preguntas de simulación (PBQ): son las primeras del examen; déjalas para el final si te traban.']
+  ]},
+  {title:'Examen Security+',test:true,tasks:[
+   ['Presenta Security+: 90 minutos y hasta 90 preguntas. Hazlo en inglés: también es práctica.','t'],
+   ['Agrégala a LinkedIn y a tu hoja de vida.'],
+   ['Día libre.','g']
+  ]}
+ ]},
  {title:'Analista SOC',goal:'Hacer el trabajo de un analista de nivel 1: revisar alertas, investigar y escribir el informe. Y postularte desde ya.',tip:`Ruta ${L(U.soc,'SOC Level 1')} de TryHackMe: 65 h. Cada informe: una página en inglés en LinkedIn o GitHub.`,lessons:[
   {title:'El equipo azul',tasks:[
    ['Blue Team Introduction: Junior Security Analyst Intro, SOC Role, Humans y Systems as Attack Vectors.'],
@@ -483,20 +510,20 @@ cyber:{name:'Ciberseguridad',units:[
   ]},
   {title:'EDR y SIEM',tasks:[
    ['Core SOC Solutions: EDR, SIEM, Splunk, Elastic Stack y SOAR.'],
-   [`Ver: ${L(U.messer,'Security+ SY0-701')} de Professor Messer, sección 4, videos 1 a 10.`],
+   [`${L(U.kql,'Must Learn KQL')}: partes 1 a 5. KQL es el lenguaje de búsqueda de Microsoft Sentinel, el SIEM que más piden después de Splunk.`],
    [`Un laboratorio fácil de ${L(U.cd,'CyberDefenders')}: Lockdown o FakeGPT.`,'g'],
    ['Dos postulaciones.']
   ]},
   {title:'Marcos de defensa',tasks:[
    ['Cyber Defence Frameworks: Pyramid Of Pain, Kill Chain, Unified Kill Chain, MITRE, Summit y Eviction.'],
-   ['Ver: Security Operations, videos 11 a 20.'],
+   ['Must Learn KQL: partes 6 a 10.'],
    ['Alertas de LetsDefend.','g'],
    ['Informe 1: resumen en inglés de una investigación, publicado.'],
    ['Dos postulaciones.']
   ]},
   {title:'Phishing',tasks:[
    ['Phishing Analysis completo y el simulador Phishing Unfolding.'],
-   ['Ver: Security Operations, videos 21 a 29.'],
+   ['Must Learn KQL: partes 11 a 15.'],
    ['Otro laboratorio fácil de CyberDefenders.','g'],
    ['Dos postulaciones.']
   ]},
@@ -538,8 +565,99 @@ cyber:{name:'Ciberseguridad',units:[
   ]},
   {title:'Prueba final SOC',test:true,tasks:[
    ['Ruta SOC Level 1 terminada, cinco informes publicados y al menos diez postulaciones.','t'],
-   ['Decide con tu amigo si vale la pena la certificación SAL1 de TryHackMe (desde USD 349).'],
-   ['Celebra. Después viene SOC de nivel 2 o el lado ofensivo.','g']
+   ['Decide si vale la pena la certificación SAL1 de TryHackMe (desde USD 349) o si pasas directo a la siguiente unidad.','o'],
+   ['Celebra: ya tienes perfil de analista. Lo que sigue te sube de nivel.','g']
+  ]}
+ ]},
+ {title:'Python y automatización',goal:'Que la máquina haga lo repetitivo. Es lo que separa al analista que la IA reemplaza del que la usa.',tip:`Libro gratis: ${L(U.atbs,'Automate the Boring Stuff with Python')}. No necesitas ser programador: basta con leer logs, llamar APIs y armar reportes.`,lessons:[
+  {title:'Python desde cero',tasks:[
+   [`${L(U.atbs,'Automate the Boring Stuff')}: capítulos 1 a 6.`],
+   ['Sala Python Basics de TryHackMe.','g']
+  ]},
+  {title:'Archivos, logs y regex',tasks:[
+   ['Automate the Boring Stuff: capítulos 7 a 10 (expresiones regulares y archivos).'],
+   ['Escribe un script que lea un log de SSH y cuente los intentos fallidos por IP.'],
+   ['Súbelo a GitHub con un README en inglés.']
+  ]},
+  {title:'APIs de inteligencia',tasks:[
+   [`Crea una clave gratis de ${L(U.vt,'VirusTotal')} y consulta un hash desde Python con requests.`],
+   [`Haz lo mismo con una IP en ${L('https://www.abuseipdb.com/','AbuseIPDB')}.`]
+  ]},
+  {title:'Detecciones como código',tasks:[
+   [`Lee el formato de reglas ${L(U.sigma,'Sigma')} y estudia diez reglas del repositorio.`],
+   ['Escribe tres reglas Sigma propias y conviértelas a Splunk y a KQL.'],
+   ['Un laboratorio de CyberDefenders donde uses lo que escribiste.','g']
+  ]},
+  {title:'Prueba de automatización',test:true,tasks:[
+   ['Publica en GitHub un enriquecedor de alertas: recibe una IP o un hash, consulta VirusTotal y AbuseIPDB y escribe un resumen listo para el informe.','t']
+  ]}
+ ]},
+ {title:'Nube y Microsoft',goal:'La seguridad en la nube es la segunda habilidad más pedida en ciberseguridad. Aquí sacas dos certificaciones de Microsoft.',tip:`Ruta: ${L(U.sc900,'SC-900')} (fundamentos) y luego ${L(U.sc200,'SC-200')} (analista de operaciones de seguridad: Sentinel y Defender). Microsoft Learn es gratis y trae exámenes de práctica; el precio de cada examen depende del país.`,lessons:[
+  {title:'Nube e identidad',tasks:[
+   [`Ruta de aprendizaje de ${L(U.sc900,'SC-900')} en Microsoft Learn: nube, identidad (Entra ID), seguridad y cumplimiento.`],
+   ['Evaluación de práctica gratis de SC-900 hasta sacar 85% o más.']
+  ]},
+  {title:'Examen SC-900',test:true,tasks:[
+   ['Presenta SC-900.','t'],
+   [`${L('http://flaws.cloud/','flaws.cloud')}: errores reales de configuración en AWS, niveles 1 a 6.`,'g']
+  ]},
+  {title:'Sentinel y Defender',tasks:[
+   [`Ruta de ${L(U.sc200,'SC-200')} en Microsoft Learn: la primera mitad.`],
+   ['Must Learn KQL: las partes que te falten.'],
+   ['Laboratorios de SC-200 en Microsoft Learn.','g']
+  ]},
+  {title:'Investigar en la nube',tasks:[
+   ['SC-200: la segunda mitad.'],
+   ['Informe en inglés de una investigación hecha en Sentinel, publicado.']
+  ]},
+  {title:'Examen SC-200',test:true,tasks:[
+   ['Evaluación de práctica de SC-200 con 85% o más.'],
+   ['Presenta SC-200: Analista de Operaciones de Seguridad de Microsoft.','t']
+  ]}
+ ]},
+ {title:'IA y seguridad',goal:'La habilidad más pedida en ciberseguridad hoy: usar la IA para defender y saber defender los sistemas de IA.',tip:`Punto de partida: el ${L(U.owaspllm,'OWASP Top 10 para aplicaciones con LLM')}. La IA no reemplaza tu criterio: cada cosa que diga se verifica.`,lessons:[
+  {title:'La IA como herramienta del analista',tasks:[
+   ['Toma una alerta que ya investigaste y pídele a un asistente de IA que la resuma y proponga los siguientes pasos. Anota en qué acertó y en qué se equivocó.'],
+   ['Escribe tres instrucciones (prompts) reutilizables para triage, resumen de logs e informes.']
+  ]},
+  {title:'Cómo se ataca una IA',tasks:[
+   [`Lee el ${L(U.owaspllm,'OWASP Top 10 para LLM')} completo.`],
+   [`${L(U.gandalf,'Gandalf')}: convence a la IA de darte la contraseña, niveles 1 a 7.`,'g']
+  ]},
+  {title:'Laboratorios de LLM',tasks:[
+   [`${L(U.psllm,'Ataques a LLM')} de PortSwigger Web Security Academy: lee el tema y resuelve los laboratorios de aprendiz y practicante.`],
+   ['Explica en inglés qué es la inyección de instrucciones (prompt injection) y cómo se mitiga.']
+  ]},
+  {title:'Gobierno de la IA',tasks:[
+   [`Lee el resumen del ${L(U.nistai,'marco de riesgos de IA del NIST')} (AI RMF).`],
+   ['Escribe una política de una página: uso seguro de la IA en una empresa.']
+  ]},
+  {title:'Prueba de IA',test:true,tasks:[
+   ['Informe en inglés, publicado: revisa una app de chat con IA según el OWASP Top 10 para LLM y propone correcciones.','t']
+  ]}
+ ]},
+ {title:'Detección y nivel 2',goal:'Pasar de revisar alertas a crearlas y salir a cazar amenazas: el trabajo que la IA no reemplaza.',tip:`Para el laboratorio en casa basta tu Mac con máquinas virtuales. Si quieres otra certificación, la siguiente natural es ${L(U.cysa,'CySA+')}.`,lessons:[
+  {title:'Tu laboratorio',tasks:[
+   [`Instala ${L(U.wazuh,'Wazuh')} en una máquina virtual y conéctale una máquina Windows o Linux.`],
+   ['Documenta en GitHub cómo lo armaste.']
+  ]},
+  {title:'Simula ataques',tasks:[
+   [`Ejecuta cinco técnicas de ${L(U.art,'Atomic Red Team')} en tu laboratorio y busca su rastro en Wazuh.`],
+   ['Escribe una detección para cada una que no se haya visto.']
+  ]},
+  {title:'Caza de amenazas',tasks:[
+   [`Tres investigaciones de ${L(U.btlo,'Blue Team Labs Online')}.`,'g'],
+   ['Dos laboratorios de dificultad media en CyberDefenders.','g'],
+   ['Informe en inglés de la mejor, publicado.']
+  ]},
+  {title:'Portafolio',tasks:[
+   ['Ordena tu GitHub: scripts, reglas, laboratorio e informes, cada uno con su README en inglés.'],
+   ['Actualiza LinkedIn: certificaciones, proyectos y un resumen en inglés.'],
+   [`${L(U.cysa,'CySA+')} de CompTIA, si quieres una certificación más de analista.`,'o']
+  ]},
+  {title:'Prueba final',test:true,tasks:[
+   ['Postúlate a diez cargos de analista SOC nivel 2, ingeniero de detección o seguridad en la nube, remotos incluidos.','t'],
+   ['Celebra: ruta completa.','g']
   ]}
  ]}
 ]},
@@ -604,7 +722,12 @@ const EASY={cyber:[
  'Una red es la forma en que los equipos se hablan. Aprendes qué pasa cuando abres una página: direcciones (IP), nombres (DNS) y mensajes (TCP, HTTP). Es la base de todo lo demás.',
  'Linux es el sistema que usan casi todos los servidores. Aprendes a manejarlo escribiendo comandos en la terminal, sin mouse. Bandit es un juego donde cada nivel te obliga a usar un comando nuevo.',
  'Aprendes cómo atacan y cómo se defienden los sistemas: contraseñas, cifrado, virus y firewalls. Al final presentas el CCST, una certificación básica de Cisco.',
- 'Un analista SOC vigila las alertas de seguridad de una empresa, decide cuáles son ataques reales e informa. Aquí practicas ese trabajo en simuladores y empiezas a postularte.'
+ 'Security+ es el certificado que más piden las empresas para un primer trabajo en seguridad. Repasas todo lo de la unidad anterior con más profundidad y presentas el examen.',
+ 'Un analista SOC vigila las alertas de seguridad de una empresa, decide cuáles son ataques reales e informa. Aquí practicas ese trabajo en simuladores y empiezas a postularte.',
+ 'Aprendes a programar lo justo en Python para que el computador haga el trabajo repetitivo: leer logs, consultar bases de amenazas y armar reportes.',
+ 'La nube son computadores de otras empresas, como Microsoft o Amazon, donde hoy viven los datos. Aprendes a protegerlos y sacas dos certificaciones de Microsoft.',
+ 'Aprendes a usar la IA en tu trabajo sin creerle a ciegas, y cómo se atacan y se protegen los sistemas de IA. Es la habilidad más pedida hoy.',
+ 'Armas tu propio laboratorio, simulas ataques y creas las alertas que los detectan. Es el salto de analista que revisa a analista que construye.'
 ],eng:[
  'Haces una prueba gratis de 50 minutos para saber tu nivel real de inglés.',
  'Repaso rápido de lo básico. Si algo ya lo sabes, sáltalo: la idea es tapar huecos, no empezar de cero.',
@@ -658,6 +781,23 @@ const LIB=[
   [L('https://www.youtube.com/@_JohnHammond','John Hammond'),'CTF y malware · inglés',''],
   [L('https://www.youtube.com/@s4vitar','S4vitar'),'Hacking ético · español',''],
   [L('https://darknetdiaries.com/','Darknet Diaries'),'Pódcast de ataques reales, con transcripción','']
+ ]},
+ {h:'Certificaciones de la ruta',items:[
+  [L(U.ccst,'CCST Cybersecurity'),'Cisco · entrada, en español','USD 125'],
+  [L(U.secplus,'Security+'),'CompTIA · la más pedida para empezar','Unos USD 425'],
+  [L(U.sc900,'SC-900'),'Microsoft · fundamentos de seguridad e identidad','Según el país'],
+  [L(U.sc200,'SC-200'),'Microsoft · analista con Sentinel y Defender','Según el país'],
+  [L(U.cysa,'CySA+'),'CompTIA · analista intermedio, opcional','Unos USD 425']
+ ]},
+ {h:'Python, nube e IA',items:[
+  [L(U.atbs,'Automate the Boring Stuff'),'Python para automatizar, libro en línea','Gratis'],
+  [L(U.kql,'Must Learn KQL'),'El lenguaje de Microsoft Sentinel','Gratis'],
+  [L(U.sigma,'Sigma'),'Reglas de detección compartidas','Código abierto'],
+  [L('http://flaws.cloud/','flaws.cloud'),'Errores de seguridad en AWS','Gratis'],
+  [L(U.owaspllm,'OWASP Top 10 para LLM'),'Riesgos de las apps con IA','Gratis'],
+  [L(U.gandalf,'Gandalf'),'Juego de inyección de instrucciones','Gratis'],
+  [L(U.psllm,'PortSwigger: ataques a LLM'),'Laboratorios de seguridad de IA','Gratis'],
+  [L(U.wazuh,'Wazuh'),'SIEM para tu laboratorio','Código abierto']
  ]},
  {h:'Inglés fuera de Platzi',items:[
   [L(U.efset,'EF SET'),'Mide tu nivel al cerrar cada unidad','Gratis'],
@@ -776,7 +916,7 @@ const DICT=[
  ['Cisco Networking Academy','Cisco NetAcad',6,'Cursos gratis de Cisco, una de las empresas más grandes de redes. Dan insignias al aprobar.',''],
  ['CCST Cybersecurity','CCST',6,'Certificación de entrada de Cisco: examen de 50 minutos, en español, de USD 125.',''],
  ['Security+','CompTIA Security+',6,'Certificación de entrada muy pedida en empleos, más conocida que el CCST.',''],
- ['SAL1','TryHackMe SAL1',6,'Certificación práctica de analista SOC de TryHackMe. Opcional, después de mayo.',''],
+ ['SAL1','TryHackMe SAL1',6,'Certificación práctica de analista SOC de TryHackMe. Opcional.',''],
  ['OSCP','OSCP',6,'Certificación difícil de hacking ofensivo. Es para más adelante.',''],
  ['Pentesting','Penetration testing',6,'Atacar un sistema con permiso para encontrar fallas. Es el lado ofensivo.',''],
 
@@ -784,6 +924,20 @@ const DICT=[
  ['EF SET','EF SET',7,'Prueba de inglés gratis de 50 minutos. Da un puntaje: 51 a 60 es B2 y 61 a 70 es C1.',''],
  ['B2 y C1','B2 / C1',7,'Niveles de inglés. B2 es intermedio alto; C1 es avanzado.',''],
  ['Anki','Anki',7,'App de tarjetas para memorizar palabras: te las repite justo antes de que las olvides.',''],
+ ['KQL','Kusto Query Language',5,'El lenguaje para buscar en los logs de Microsoft Sentinel y Defender.',''],
+ ['Microsoft Sentinel','Microsoft Sentinel',5,'El SIEM en la nube de Microsoft. Es de los más pedidos junto con Splunk.',''],
+ ['Python','Python',5,'Lenguaje de programación sencillo, el más usado para automatizar tareas de seguridad.',''],
+ ['API','API',5,'Una puerta para que un programa le pida datos a otro.','Tu script le pregunta a VirusTotal si un archivo es malicioso.'],
+ ['Sigma','Sigma',5,'Un formato para escribir reglas de detección una vez y usarlas en cualquier SIEM.',''],
+ ['Wazuh','Wazuh',5,'SIEM gratis y de código abierto; ideal para tu laboratorio en casa.',''],
+ ['Ingeniería de detección','Detection engineering',4,'Diseñar, probar y mantener las reglas que generan las alertas.',''],
+ ['Caza de amenazas','Threat hunting',4,'Buscar ataques escondidos que ninguna alerta detectó.',''],
+ ['IAM','Identity and Access Management',2,'Quién puede entrar a qué. En la nube es la primera línea de defensa.',''],
+ ['LLM','Large Language Model',3,'Un modelo de IA de lenguaje, como los asistentes de chat.',''],
+ ['Inyección de instrucciones','Prompt injection',3,'Engañar a una IA con texto escondido para que ignore sus reglas. Es el riesgo número uno de las apps con IA.',''],
+ ['OWASP Top 10 para LLM','OWASP Top 10 for LLM',3,'La lista de los diez riesgos más importantes de las aplicaciones con IA.',''],
+ ['SC-900 y SC-200','SC-900 / SC-200',6,'Certificaciones de Microsoft: fundamentos de seguridad (SC-900) y analista de operaciones con Sentinel y Defender (SC-200).',''],
+ ['CySA+','CompTIA CySA+',6,'Certificación de analista de seguridad de nivel intermedio. El paso natural después de Security+.',''],
  ['XP, racha y protector','XP / streak',7,'XP son los puntos que ganas. La racha cuenta los días seguidos que llegas a tu meta. Un protector salva la racha si fallas un día.','']
 ];
 
