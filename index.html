@@ -385,6 +385,7 @@ const U={
  nb:'https://www.netacad.com/es/courses/networking-basics', pn:'https://www.youtube.com/playlist?list=PLIFyRwBY_4bRLmKfP1KnZA6rZbRHtxmXi', ccna:'https://www.youtube.com/playlist?list=PLxbwE86jKRgMpuZuLBivzlM8s2Dk5lXBQ',
  bandit:'https://overthewire.org/wargames/bandit/', cs101:'https://tryhackme.com/path/outline/cybersecurity101', soc:'https://tryhackme.com/path/outline/soclevel1',
  messer:'https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/sy0-701-comptia-security-plus-course/', ld:'https://app.letsdefend.io/', cd:'https://cyberdefenders.org/blueteam-ctf-challenges/',
+ psa:'https://portswigger.net/web-security', burp:'https://portswigger.net/burp/communitydownload', owasp10:'https://owasp.org/Top10/', masvs:'https://mas.owasp.org/MASVS/', mastg:'https://mas.owasp.org/MASTG/', wstg:'https://owasp.org/www-project-web-security-testing-guide/',
  secplus:'https://www.comptia.org/certifications/security', pm:'https://www.professormesser.com/', sc900:'https://learn.microsoft.com/en-us/credentials/certifications/security-compliance-and-identity-fundamentals/', sc200:'https://learn.microsoft.com/en-us/credentials/certifications/security-operations-analyst/', kql:'https://github.com/rod-trent/MustLearnKQL', atbs:'https://automatetheboringstuff.com/', sigma:'https://github.com/SigmaHQ/sigma', vt:'https://docs.virustotal.com/reference/overview', owaspllm:'https://genai.owasp.org/llm-top-10/', gandalf:'https://gandalf.lakera.ai/', psllm:'https://portswigger.net/web-security/llm-attacks', nistai:'https://www.nist.gov/itl/ai-risk-management-framework', art:'https://github.com/redcanaryco/atomic-red-team', wazuh:'https://wazuh.com/', btlo:'https://blueteamlabs.online/', cysa:'https://www.comptia.org/certifications/cybersecurity-analyst',
  ccst:'https://www.cisco.com/site/us/en/learn/training-certifications/exams/ccst-cybersecurity.html', p:'https://platzi.com/cursos/', efset:'https://www.efset.org/ef-set-50/'
 };
@@ -533,6 +534,45 @@ cyber:{name:'Ciberseguridad',units:[
    ['Presenta Security+: 90 minutos y hasta 90 preguntas. Hazlo en inglés: también es práctica.','t'],
    ['Agrégala a LinkedIn y a tu hoja de vida.'],
    ['Día libre.','g']
+  ]}
+ ]},
+ {title:'Seguridad web y apps',goal:'Entender las vulnerabilidades web y móviles desde adentro: atacarlas en laboratorios y saber verlas en los logs.',tip:`Todo se practica en la ${L(U.psa,'Web Security Academy de PortSwigger')}: gratis, con laboratorios legales hechos para atacar. Herramienta: ${L(U.burp,'Burp Suite Community')}. Más adelante, si te gusta, existe la certificación Burp Suite Certified Practitioner.`,lessons:[
+  {title:'La web por dentro y Burp Suite',tasks:[
+   [`Crea tu cuenta en la ${L(U.psa,'Web Security Academy')} e instala ${L(U.burp,'Burp Suite Community')}.`],
+   ['Sala Burp Suite: The Basics de TryHackMe: proxy, repeater e intercepción de peticiones.'],
+   ['Captura con Burp una petición de inicio de sesión de un laboratorio y explica en inglés cada encabezado y cookie.']
+  ]},
+  {title:'Inyecciones',tasks:[
+   ['PortSwigger: SQL injection, todos los laboratorios de nivel aprendiz.','g'],
+   ['PortSwigger: Cross-site scripting (XSS), todos los de nivel aprendiz.','g'],
+   ['Anota para cada uno qué se ve en el log del servidor cuando alguien lo intenta.']
+  ]},
+  {title:'Acceso y autenticación',tasks:[
+   ['PortSwigger: Access control, laboratorios de aprendiz.','g'],
+   ['PortSwigger: Authentication, laboratorios de aprendiz.','g']
+  ]},
+  {title:'El OWASP Top 10 completo',tasks:[
+   [`Lee el ${L(U.owasp10,'OWASP Top 10')} completo.`],
+   ['PortSwigger: SSRF, path traversal y file upload, laboratorios de aprendiz.','g'],
+   ['Escribe en inglés una ficha por cada riesgo del Top 10: qué es, un ejemplo y cómo se detecta.']
+  ]},
+  {title:'Ataques web vistos desde el SOC',tasks:[
+   ['Revisa los logs de Apache o Nginx de tus laboratorios y encuentra tus propios ataques de SQLi y XSS.'],
+   ['Escribe una búsqueda de Splunk o KQL y una regla Sigma que detecten SQL injection en logs web.'],
+   ['Aprende qué es un WAF y qué ataques frena y cuáles no.']
+  ]},
+  {title:'Apps móviles',tasks:[
+   [`Lee el ${L(U.masvs,'OWASP MASVS')}: qué debe cumplir una app móvil segura.`],
+   [`Recorre la ${L(U.mastg,'guía de pruebas MASTG')}: almacenamiento, red y autenticación en Android.`],
+   ['Resuelve un reto UnCrackable de OWASP MAS.','o']
+  ]},
+  {title:'Metodología de pentesting',tasks:[
+   [`Lee la estructura de la ${L(U.wstg,'guía de pruebas web de OWASP (WSTG)')}: cómo se ordena una prueba de intrusión.`,'o'],
+   ['Escribe un informe de pentest corto de un laboratorio: alcance, hallazgo, riesgo, evidencia y corrección.','o']
+  ]},
+  {title:'Prueba web',test:true,tasks:[
+   ['Treinta laboratorios de nivel aprendiz resueltos en PortSwigger.','t'],
+   ['Publica en inglés el informe de uno: hallazgo, impacto, cómo se detecta y cómo se corrige.','t']
   ]}
  ]},
  {title:'Analista SOC',goal:'Hacer el trabajo de un analista de nivel 1: revisar alertas, investigar y escribir el informe. Y postularte desde ya.',tip:`Ruta ${L(U.soc,'SOC Level 1')} de TryHackMe: 65 h. Cada informe: una página en inglés en LinkedIn o GitHub.`,lessons:[
@@ -757,6 +797,7 @@ const EASY={cyber:[
  'Linux es el sistema que usan casi todos los servidores. Aprendes a manejarlo escribiendo comandos en la terminal, sin mouse. Bandit es un juego donde cada nivel te obliga a usar un comando nuevo.',
  'Aprendes cómo atacan y cómo se defienden los sistemas: contraseñas, cifrado, virus y firewalls. Al final presentas el CCST, una certificación básica de Cisco.',
  'Security+ es el certificado que más piden las empresas para un primer trabajo en seguridad. Repasas todo lo de la unidad anterior con más profundidad y presentas el examen.',
+ 'Aprendes cómo se rompen las páginas web y las apps del celular, atacándolas en laboratorios legales, y cómo se ven esos ataques en los logs. Es lo que más piden los expertos que te asesoran.',
  'Un analista SOC vigila las alertas de seguridad de una empresa, decide cuáles son ataques reales e informa. Aquí practicas ese trabajo en simuladores y empiezas a postularte.',
  'Aprendes a programar lo justo en Python para que el computador haga el trabajo repetitivo: leer logs, consultar bases de amenazas y armar reportes.',
  'La nube son computadores de otras empresas, como Microsoft o Amazon, donde hoy viven los datos. Aprendes a protegerlos y sacas dos certificaciones de Microsoft.',
@@ -822,6 +863,13 @@ const LIB=[
   [L(U.sc900,'SC-900'),'Microsoft · fundamentos de seguridad e identidad','Según el país'],
   [L(U.sc200,'SC-200'),'Microsoft · analista con Sentinel y Defender','Según el país'],
   [L(U.cysa,'CySA+'),'CompTIA · analista intermedio, opcional','Unos USD 425']
+ ]},
+ {h:'Seguridad web y móvil',items:[
+  [L(U.psa,'Web Security Academy'),'PortSwigger · laboratorios web','Gratis'],
+  [L(U.burp,'Burp Suite Community'),'El proxy para probar apps web','Gratis'],
+  [L(U.owasp10,'OWASP Top 10'),'Las vulnerabilidades web más importantes','Gratis'],
+  [L(U.masvs,'OWASP MASVS y MASTG'),'Estándar y guía de apps móviles','Gratis'],
+  [L(U.wstg,'OWASP WSTG'),'Metodología de pruebas web','Gratis']
  ]},
  {h:'Python, nube e IA',items:[
   [L(U.atbs,'Automate the Boring Stuff'),'Python para automatizar, libro en línea','Gratis'],
@@ -958,6 +1006,11 @@ const DICT=[
  ['EF SET','EF SET',7,'Prueba de inglés gratis de 50 minutos. Da un puntaje: 51 a 60 es B2 y 61 a 70 es C1.',''],
  ['B2 y C1','B2 / C1',7,'Niveles de inglés. B2 es intermedio alto; C1 es avanzado.',''],
  ['Anki','Anki',7,'App de tarjetas para memorizar palabras: te las repite justo antes de que las olvides.',''],
+ ['Burp Suite','Burp Suite',5,'Programa que se pone entre tu navegador y una página web para ver y modificar lo que se envían. La herramienta básica de pruebas web.',''],
+ ['OWASP Top 10','OWASP Top 10',3,'La lista de las diez vulnerabilidades web más importantes, de la fundación OWASP.',''],
+ ['SSRF','Server-Side Request Forgery',3,'Engañar a un servidor para que haga peticiones a donde el atacante quiere, por ejemplo a su red interna.',''],
+ ['WAF','Web Application Firewall',4,'Un firewall especial para páginas web: revisa las peticiones y frena ataques como SQLi o XSS.',''],
+ ['MASVS','Mobile Application Security Verification Standard',6,'El estándar de OWASP de lo que debe cumplir una app móvil segura. Su guía práctica es el MASTG.',''],
  ['KQL','Kusto Query Language',5,'El lenguaje para buscar en los logs de Microsoft Sentinel y Defender.',''],
  ['Microsoft Sentinel','Microsoft Sentinel',5,'El SIEM en la nube de Microsoft. Es de los más pedidos junto con Splunk.',''],
  ['Python','Python',5,'Lenguaje de programación sencillo, el más usado para automatizar tareas de seguridad.',''],
