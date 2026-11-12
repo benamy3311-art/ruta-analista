@@ -812,6 +812,7 @@ let saveT;
 function save(){
   clearTimeout(saveT);
   saveT=setTimeout(async()=>{
+    try{ if(store&&store.mirror) localStorage.setItem('ruta-analista',JSON.stringify(S)); }catch(e){}
     try{ if(store) await store.set(JSON.parse(JSON.stringify(S))); else localStorage.setItem('ruta-analista',JSON.stringify(S)); }catch(e){}
   },500);
 }
@@ -931,7 +932,7 @@ function renderProfile(){
   const cl=lessonsOf('cyber'), el=lessonsOf('eng');
   const cd=cl.filter(isDone).length, ed=el.filter(isDone).length;
   return `<h2 class="section-h">Tu progreso</h2><p class="sub">Sin fechas: avanzas a tu ritmo. Lo que importa es pasar cada prueba.</p>
-  <div class="card lvl">${pring(inLvl/150,68,lvl)}<div style="flex:1;min-width:0"><div class="q-title">Nivel ${lvl}</div><div class="q-desc">${S.xp} XP en total · faltan ${150-inLvl} para el nivel ${lvl+1}</div></div></div>
+  ${typeof accountCard==='function'?accountCard():''}<div class="card lvl">${pring(inLvl/150,68,lvl)}<div style="flex:1;min-width:0"><div class="q-title">Nivel ${lvl}</div><div class="q-desc">${S.xp} XP en total · faltan ${150-inLvl} para el nivel ${lvl+1}</div></div></div>
   <div class="stats" style="margin-top:8px">
    <div class="tile" style="color:var(--flame)">${I.flame}<div><b style="color:var(--fg)">${S.streak}</b><span>días de racha</span></div></div>
    <div class="tile" style="color:var(--ice)">${I.ice}<div><b style="color:var(--fg)">${S.freezes}/2</b><span>protectores</span></div></div>
@@ -1041,6 +1042,63 @@ $('#savenote').textContent='Tu progreso se guarda en este navegador.';
     $('#savenote').textContent='Tu progreso se guarda en tu cuenta: lo ves igual en el Mac y en el iPad.';
   }catch(e){}
 })();
+</script>
+
+<script type="module">
+/* ---------- cuenta con Google (Firebase) ----------
+   Solo en la versión publicada en un sitio web (GitHub Pages) o en localhost. En el artifact de claude.ai se usa su propio guardado (db).
+   La configuración de la app web de Firebase es pública por diseño; la seguridad la dan las reglas de Firestore (cada usuario solo su documento). */
+if(!window.claude && /^https?:$/.test(location.protocol)){
+ try{
+  const V='11.0.2', G='https://www.gstatic.com/firebasejs/'+V+'/';
+  const [{initializeApp},{getAuth,onAuthStateChanged,signInWithPopup,GoogleAuthProvider,signOut},{getFirestore,doc,getDoc,setDoc}] =
+    await Promise.all([import(G+'firebase-app.js'),import(G+'firebase-auth.js'),import(G+'firebase-firestore.js')]);
+  const app=initializeApp({
+    apiKey:"AIzaSyCH2a2kbNX6FTvleg_xs9RrlOfIRWj-O6M",
+    authDomain:"ruta-analista-19495.firebaseapp.com",
+    projectId:"ruta-analista-19495",
+    storageBucket:"ruta-analista-19495.firebasestorage.app",
+    messagingSenderId:"68005612711",
+    appId:"1:68005612711:web:dd05fdcb38828128d15f82"});
+  const auth=getAuth(app), db=getFirestore(app);
+  let me=null, busy=false, err='';
+  const note=t=>{const n=document.getElementById('savenote'); if(n) n.textContent=t};
+  const refresh=()=>{ if(typeof tab!=='undefined'&&tab==='perfil') render(); };
+  window.accountCard=()=>{
+    if(me) return `<div class="card" style="margin-bottom:8px"><div class="q-title">${esc(me.displayName||'Tu cuenta')}</div><div class="q-desc">${esc(me.email||'')} · tu progreso se guarda en tu cuenta y lo ves en todos tus dispositivos.</div><div class="row" style="margin-top:12px"><button class="btn ghost" data-logout="1">Salir</button></div></div>`;
+    return `<div class="card" style="margin-bottom:8px"><div class="q-title">Guarda tu progreso en la nube</div><div class="q-desc">Entra con Google y verás lo mismo en el Mac, el iPad y el celular.${err?` <b>${esc(err)}</b>`:''}</div><div class="row" style="margin-top:12px"><button class="btn" data-login="1"${busy?' disabled':''}>${busy?'Abriendo Google…':'Entrar con Google'}</button></div></div>`;
+  };
+  const loginSheet=()=>openSheet(`<div class="eyebrow">Tu cuenta</div><h3>Guarda tu progreso y llévalo a todos tus dispositivos</h3><p class="hint">Sin cuenta, tu avance vive solo en este navegador y se pierde si borras los datos del sitio. Con Google queda a salvo.</p><div class="row"><button class="btn ghost" data-skip-login="1">Ahora no</button><button class="btn" data-login="1">Entrar con Google</button></div>`);
+  document.addEventListener('click',async e=>{
+    const el=e.target.closest('[data-login],[data-logout],[data-skip-login]'); if(!el) return;
+    if(el.dataset.skipLogin){ try{localStorage.setItem('ruta-login-skip','1')}catch(_){} closeSheet(); return; }
+    if(el.dataset.logout){
+      try{ localStorage.setItem('ruta-analista',JSON.stringify(S)); }catch(_){}
+      store=null; await signOut(auth); return;
+    }
+    if(busy) return; busy=true; err=''; refresh();
+    try{ await signInWithPopup(auth,new GoogleAuthProvider()); closeSheet(); }
+    catch(ex){ err=(ex&&ex.code==='auth/popup-blocked')?'El navegador bloqueó la ventana de Google. Permítela y vuelve a intentar.':(ex&&ex.code==='auth/popup-closed-by-user'||ex&&ex.code==='auth/cancelled-popup-request')?'':'No se pudo entrar. Intenta de nuevo.'; }
+    busy=false; refresh();
+  });
+  onAuthStateChanged(auth,async u=>{
+    me=u;
+    if(!u){ store=null; note('Tu progreso se guarda en este navegador. Entra con Google para verlo en todos tus dispositivos.'); refresh();
+      let skipped=false; try{skipped=!!localStorage.getItem('ruta-login-skip')}catch(_){}
+      if(!skipped && !document.querySelector('.scrim')) loginSheet();
+      return; }
+    try{
+      const ref=doc(db,'users',u.uid);
+      const snap=await getDoc(ref);
+      store={mirror:true,set:d=>setDoc(ref,d)};
+      // Si ya hay avance en la nube y es mayor o igual al de este navegador, manda la nube; si no, se sube el de este navegador.
+      if(snap.exists() && (snap.data().xp||0)>=S.xp) boot(snap.data()); else save();
+      note('Tu progreso se guarda en tu cuenta ('+(u.email||'Google')+'): lo ves igual en todos tus dispositivos.');
+    }catch(ex){ store=null; note('No se pudo conectar con tu cuenta; tu progreso sigue guardado en este navegador.'); }
+    refresh();
+  });
+ }catch(ex){ /* sin red o bloqueado: la app sigue funcionando con guardado local */ }
+}
 </script>
 
 </body>
