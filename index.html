@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+</head>
+<body>
+<title>Ruta Analista</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700&display=swap">
+<style>
+/* Layout: app de una columna (máx 520px) con barra superior de racha/XP, ruta en zigzag de lecciones y barra flotante de pestañas abajo.
+   Formas inspiradas en plush-ui: superficies sin bordes, sombras suaves, píldoras y resortes al pulsar.
+   Paleta de tres colores: crema (fondos), azul noche (texto, acción principal, Ciber) y rojo (progreso, lo hecho o elegido, Inglés). */
+:root{
+  --bg:#f7f2e8; --panel:#f1ebde; --surface:#fffdf8; --surface-2:#f0e9db; --fill-strong:#e6dccb; --line:#e8dfcf;
+  --fg:#1d3557; --muted:#5c6b82; --faint:#a3a9b3;
+  --accent:#1d3557; --on-accent:#fffdf8; --on-accent-2:rgba(255,253,248,.68); --on-accent-track:rgba(255,253,248,.13);
+  --sel-a:#d62839; --sel-b:#e8443a; --on-sel:#ffffff;
+  --cyber:#1d3557; --cyber-deep:#14263f; --cyber-soft:#dfe5ee;
+  --eng:#d62839; --eng-deep:#b81f2e; --eng-soft:#f9dfdc;
+  --gold:#d62839; --gold-deep:#b81f2e; --flame:#d62839; --ice:#3d6a9e;
+  --ok:#1d3557; --danger:#b81f2e; --lock:#e6dccb; --lock-deep:#a3a9b3;
+  --scrim:rgba(29,53,87,.36);
+  --shadow-soft:0 1px 2px rgba(29,53,87,.05),0 8px 24px rgba(29,53,87,.06);
+  --shadow-knob:0 1px 3px rgba(29,53,87,.18),0 2px 8px rgba(29,53,87,.07);
+  --ok-soft:color-mix(in oklab,var(--sel-a) 12%,var(--surface));
+  --sel-fill:linear-gradient(135deg,var(--sel-a),var(--sel-b));
+  --sel-line:linear-gradient(90deg,var(--sel-a),var(--sel-b));
+  --gloss:inset 0 1px 0 rgba(255,255,255,.45);
+  --ease-spring:linear(0,0.062,0.203,0.372,0.538,0.683,0.801,0.89,0.952,0.993,1.016,1.028,1.031,1.029,1.025,1.02,1.015,1.01,1.006,1.004,1.002,1,1,0.999,0.999,0.999,1);
+  --ease-calm:linear(0,0.051,0.166,0.309,0.452,0.584,0.696,0.787,0.858,0.911,0.949,0.975,0.992,1.002,1.008,1.01,1.011,1.01,1.009,1.007,1.006,1.004,1.003,1.002,1.001,1);
+  --dur-spring:730ms; --dur-calm:895ms; --dur-fast:120ms; --dur-fade:200ms;
+  --f-display:ui-rounded,"SF Pro Rounded","Nunito",system-ui,sans-serif;
+  --f-body:ui-rounded,"SF Pro Rounded","Nunito",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --r:28px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0e1a2b; --panel:#13233a; --surface:#172a45; --surface-2:#1f3554; --fill-strong:#2a4366; --line:#243b5c;
+  --fg:#f7f2e8; --muted:#a9b4c6; --faint:#6f7f98;
+  --accent:#f7f2e8; --on-accent:#1d3557; --on-accent-2:rgba(29,53,87,.72); --on-accent-track:rgba(29,53,87,.1);
+  --sel-a:#e63946; --sel-b:#f0554a; --on-sel:#ffffff;
+  --cyber:#6a97d6; --cyber-deep:#4f7fc0; --cyber-soft:#1f3554;
+  --eng:#ef5a5a; --eng-deep:#d62839; --eng-soft:#44222c;
+  --gold:#ef5a5a; --gold-deep:#e8545a; --flame:#ef5a5a; --ice:#7fb0e6;
+  --ok:#6a97d6; --danger:#e63946; --lock:#2a4366; --lock-deep:#6f7f98;
+  --scrim:rgba(4,10,20,.6);
+  --shadow-soft:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.24);
+  --shadow-knob:0 1px 3px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.06);
+  --gloss:inset 0 1px 0 rgba(255,255,255,.3);
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e1a2b; --panel:#13233a; --surface:#172a45; --surface-2:#1f3554; --fill-strong:#2a4366; --line:#243b5c;
+  --fg:#f7f2e8; --muted:#a9b4c6; --faint:#6f7f98;
+  --accent:#f7f2e8; --on-accent:#1d3557; --on-accent-2:rgba(29,53,87,.72); --on-accent-track:rgba(29,53,87,.1);
+  --sel-a:#e63946; --sel-b:#f0554a; --on-sel:#ffffff;
+  --cyber:#6a97d6; --cyber-deep:#4f7fc0; --cyber-soft:#1f3554;
+  --eng:#ef5a5a; --eng-deep:#d62839; --eng-soft:#44222c;
+  --gold:#ef5a5a; --gold-deep:#e8545a; --flame:#ef5a5a; --ice:#7fb0e6;
+  --ok:#6a97d6; --danger:#e63946; --lock:#2a4366; --lock-deep:#6f7f98;
+  --scrim:rgba(4,10,20,.6);
+  --shadow-soft:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.24);
+  --shadow-knob:0 1px 3px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.06);
+  --gloss:inset 0 1px 0 rgba(255,255,255,.3);
+  color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;font-weight:500;line-height:1.4;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+a{color:inherit;font-weight:600;text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:3px;text-decoration-color:color-mix(in oklab,currentColor 40%,transparent)}
+b,strong{font-weight:700}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
+.app{max-width:520px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 124px}
+h1,h2,h3{font-family:var(--f-display);font-weight:600;letter-spacing:-.01em;line-height:1.18;margin:0;text-wrap:balance}
+.eyebrow{font-size:13px;font-weight:600;color:var(--muted)}
+/* todo lo que se pulsa cede con resorte */
+.btn,.node,.qbtn,.info,.chips button,.goalpick button,.box,.tabs button,.trackswitch button{transition:scale var(--dur-spring) var(--ease-spring),background-color var(--dur-fast),box-shadow var(--dur-fade),color var(--dur-fast)}
+
+/* top bar */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);display:flex;align-items:center;justify-content:flex-end;gap:14px;min-height:64px;padding:10px 0}
+.trackswitch{position:relative;display:grid;grid-template-columns:1fr 1fr;background:var(--fill-strong);border-radius:999px;padding:4px;margin-right:auto}
+.trackswitch .glide{position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:999px;background:var(--surface);box-shadow:var(--shadow-knob);transition:transform var(--dur-spring) var(--ease-spring),scale var(--dur-spring) var(--ease-spring)}
+.trackswitch[data-on="eng"] .glide{transform:translateX(100%)}
+.trackswitch:active .glide{scale:.93}
+.trackswitch button{position:relative;border:0;background:transparent;border-radius:999px;height:36px;padding:0 16px;font-weight:600;font-size:14px;color:var(--muted)}
+.trackswitch button[aria-pressed="true"]{color:var(--fg)}
+.stat{display:flex;align-items:center;gap:3px;font-weight:600;font-size:16px;font-variant-numeric:tabular-nums}
+.stat svg{width:20px;height:20px}
+.stat.flame svg{color:var(--flame)} .stat.flame.off svg{color:var(--faint)}
+.stat.ice svg{color:var(--ice)} .stat.xp svg{color:var(--gold)}
+
+/* anillo de progreso */
+.pring{position:relative;flex:none;width:var(--s,72px);height:var(--s,72px);display:grid;place-items:center}
+.pring svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
+.pring circle{fill:none;stroke-width:9;stroke-linecap:round}
+.pring .bgc{stroke:currentColor;opacity:.14}
+.pring .fgc{stroke:url(#selg)}
+.pring b{position:relative;font-size:calc(var(--s,72px)*.27);font-weight:600;font-variant-numeric:tabular-nums;line-height:1}
+.pring b small{font-size:.62em;opacity:.6;font-weight:600}
+
+/* hero "sigue aquí": la baldosa oscura */
+.hero{margin-top:6px;background:var(--accent);color:var(--on-accent);border-radius:32px;padding:20px}
+.hero-head{display:flex;align-items:center;gap:14px}
+.hero-head>div:first-child{flex:1;min-width:0}
+.hero .eyebrow{color:var(--on-accent-2)}
+.hero h2{font-size:22px;margin:3px 0 0}
+.hero .next{margin-top:14px;font-size:15px;background:var(--on-accent-track);border-radius:16px;padding:12px 14px;overflow-wrap:anywhere}
+.hero code{background:var(--on-accent-track)}
+.hero .meta{font-size:13px;font-weight:600;color:var(--on-accent-2);margin-top:10px}
+.hero .row{margin-top:14px}
+.hero .btn.ghost{background:var(--on-accent-track);color:var(--on-accent)}
+.hero .btn.cyber,.hero .btn.eng{background:var(--sel-fill);box-shadow:var(--gloss);color:var(--on-sel)}
+.hero :focus-visible{outline-color:var(--on-accent)}
+
+/* path */
+.unit{margin-top:28px;background:var(--surface);box-shadow:var(--shadow-soft);border-radius:var(--r);padding:16px;display:flex;gap:12px;align-items:center}
+.unit-av{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:600;font-size:18px}
+.unit.cyber .unit-av{background:var(--cyber)} .unit.eng .unit-av{background:var(--eng)}
+.unit h2{font-size:18px}
+.unit p{margin:3px 0 0;font-size:14px;color:var(--muted)}
+.unit .info{margin-left:auto;flex:none;border:0;background:var(--surface-2);color:var(--fg);border-radius:50%;width:40px;height:40px;display:grid;place-items:center}
+.unit .info:active{scale:.86}
+.unit .info svg{width:20px;height:20px}
+.unit-body{min-width:0}
+.path{position:relative;display:flex;flex-direction:column;align-items:center;gap:20px;padding:30px 0 8px}
+.node-wrap{position:relative;display:flex;flex-direction:column;align-items:center}
+.node-wrap:has(.bubble){margin-top:30px}
+.node{width:68px;height:68px;border-radius:50%;border:0;display:grid;place-items:center;position:relative}
+.node:active{scale:.86}
+.node svg.ic{width:28px;height:28px}
+.node.locked{background:var(--lock);color:var(--lock-deep)}
+.node.open{background:var(--surface);box-shadow:var(--shadow-knob)}
+.node.open.cyber{color:var(--cyber)} .node.open.eng{color:var(--eng)}
+.node.open.cur{background:var(--accent);color:var(--on-accent);box-shadow:none}
+.node.done{background:var(--sel-fill);box-shadow:var(--gloss);color:var(--on-sel)}
+.node.test{border-radius:24px}
+.ring{position:absolute;inset:-9px;pointer-events:none}
+.ring circle{fill:none;stroke-width:6}
+.ring .bgc{stroke:var(--fill-strong)}
+.ring .fgc{stroke:url(#selg);stroke-linecap:round}
+.bubble{position:absolute;bottom:calc(100% + 14px);white-space:nowrap;display:flex;align-items:center;gap:8px;height:36px;padding:0 14px 0 4px;background:var(--accent);color:var(--on-accent);border-radius:999px;font-weight:600;font-size:14px;animation:rise-in var(--dur-spring) var(--ease-spring) backwards}
+.bubble i{width:28px;height:28px;border-radius:50%;background:var(--sel-fill);box-shadow:var(--gloss);color:var(--on-sel);display:grid;place-items:center}
+.bubble i svg{width:14px;height:14px}
+.bubble::after{content:"";position:absolute;left:50%;top:100%;width:10px;height:10px;background:var(--accent);border-radius:2px;transform:translate(-50%,-6px) rotate(45deg)}
+@keyframes rise-in{from{transform:translateY(10px) scale(.92);opacity:0}}
+.node-label{margin-top:12px;font-weight:600;font-size:13px;color:var(--muted);text-align:center;max-width:180px}
+.unlock-note{font-size:13px;color:var(--muted);text-align:center;margin:4px 0 0}
+
+/* sheet / dialog */
+.scrim{position:fixed;inset:0;background:var(--scrim);z-index:40;display:flex;align-items:flex-end;justify-content:center;animation:fade-in var(--dur-fade)}
+.sheet{background:var(--surface);width:100%;max-width:560px;max-height:88vh;overflow:auto;border-radius:32px 32px 0 0;padding:10px max(20px,env(safe-area-inset-right,0px)) calc(24px + env(safe-area-inset-bottom,0px)) max(20px,env(safe-area-inset-left,0px));animation:up var(--dur-spring) var(--ease-spring)}
+@keyframes up{from{transform:translateY(26px) scale(.97);opacity:0}}
+@keyframes fade-in{from{opacity:0}}
+.grab{width:36px;height:5px;border-radius:3px;background:var(--fill-strong);margin:0 auto 16px}
+@media (min-width:600px){.scrim{align-items:center;padding:20px}.sheet{max-width:460px;border-radius:32px;padding:24px;box-shadow:var(--shadow-soft)}.grab{display:none}}
+.sheet h3{font-size:22px;margin:3px 0 12px}
+.sheet p{margin:0 0 12px}
+.bar,.qbar{height:8px;background:var(--fill-strong);border-radius:999px;overflow:hidden}
+.bar{margin-bottom:12px} .qbar{margin-top:8px}
+.bar i,.qbar i{display:block;height:100%;border-radius:999px;background:var(--sel-line);box-shadow:var(--gloss);transition:width var(--dur-calm) var(--ease-calm)}
+.tasks{display:flex;flex-direction:column;gap:8px}
+.task{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;background:var(--surface-2);border-radius:16px;padding:14px;transition:background-color var(--dur-fade)}
+.task.on{background:var(--ok-soft)}
+.task .box{position:relative;flex:none;width:26px;height:26px;padding:0;border:0;background:var(--fill-strong);border-radius:9px;display:grid;place-items:center;color:var(--on-sel)}
+.task .box::before{content:"";position:absolute;inset:0;border-radius:inherit;background:var(--sel-fill);box-shadow:var(--gloss);opacity:0;transition:opacity var(--dur-fade)}
+.task .box::after{content:"";position:absolute;inset:-10px}
+.task .box:active{scale:.82}
+.task .box svg{position:relative;width:16px;height:16px;clip-path:inset(0 100% 0 0);transition:clip-path var(--dur-fade)}
+.task.on .box::before{opacity:1}
+.task.on .box svg{clip-path:inset(0);transition-delay:60ms}
+.task .txt{flex:1;min-width:0;overflow-wrap:anywhere;cursor:pointer;font-size:15px}
+.task .tag{display:inline-block;font-size:11px;font-weight:600;border-radius:999px;padding:2px 8px;margin-bottom:4px}
+.tag.game{background:color-mix(in oklab,var(--gold) 24%,var(--surface));color:var(--gold-deep)}
+.tag.test{background:var(--accent);color:var(--on-accent)}
+.tag.opt{background:var(--fill-strong);color:var(--muted)}
+.task .xp{margin-left:auto;flex:none;font-weight:600;font-size:13px;color:var(--gold-deep);font-variant-numeric:tabular-nums;line-height:26px}
+code{font-size:13px;background:var(--fill-strong);padding:1px 6px;border-radius:6px;overflow-wrap:anywhere}
+.btn{border:0;border-radius:26px;min-height:52px;padding:8px 16px;font-weight:600;font-size:16px;line-height:1.15;width:100%;background:var(--accent);color:var(--on-accent)}
+.btn.ghost{background:var(--surface-2);color:var(--fg)}
+.btn.danger{background:var(--danger);color:#fff}
+.btn:active{scale:.95}
+.row{display:flex;gap:8px;margin-top:16px}
+.hint{font-size:14px;color:var(--muted);margin:0 0 12px}
+.intro ol{list-style:none;margin:0 0 4px;padding:0;counter-reset:paso;display:flex;flex-direction:column;gap:12px}
+.intro li{position:relative;padding-left:38px;counter-increment:paso;font-size:15px}
+.intro li::before{content:counter(paso);position:absolute;left:0;top:-2px;width:26px;height:26px;border-radius:50%;background:var(--surface-2);font-weight:600;font-size:13px;display:grid;place-items:center}
+
+/* diccionario */
+.searchbox{display:flex;align-items:center;gap:10px;height:52px;padding:0 18px;border-radius:999px;background:var(--surface);box-shadow:var(--shadow-soft);color:var(--muted)}
+.searchbox:focus-within{outline:2px solid var(--fg);outline-offset:2px}
+.searchbox svg{flex:none;width:18px;height:18px}
+.search{flex:1;min-width:0;font:inherit;background:transparent;color:var(--fg);border:0;outline:0;padding:0;-webkit-appearance:none;appearance:none}
+.search::placeholder{color:var(--muted)}
+.chips{display:flex;gap:6px;overflow-x:auto;margin:0 -16px;padding:14px 16px 10px;scrollbar-width:none}
+.chips button{flex:none;border:0;background:var(--surface);box-shadow:var(--shadow-soft);border-radius:999px;height:36px;padding:0 14px;font-weight:600;font-size:14px}
+.chips button:active{scale:.95}
+.chips button[aria-pressed="true"]{background:var(--sel-fill);box-shadow:var(--gloss);color:var(--on-sel)}
+.dict-cat{font-size:13px;font-weight:600;color:var(--muted);margin:18px 0 8px 4px}
+.card.glos{padding-block:4px}
+.glos details{border-top:1px solid var(--line)}
+.glos details:first-of-type{border-top:0}
+.glos summary{display:flex;align-items:baseline;gap:8px;list-style:none;font-weight:600;cursor:pointer;padding:14px 0}
+.glos summary::-webkit-details-marker{display:none}
+.glos summary small{font-weight:500;color:var(--muted);font-size:13px}
+.glos summary::after{content:"";flex:none;margin-left:auto;align-self:center;width:8px;height:8px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);border-radius:1px;transform:translateY(-2px) rotate(45deg);transition:transform var(--dur-spring) var(--ease-spring)}
+.glos details[open] summary::after{transform:translateY(2px) rotate(225deg)}
+.glos p{margin:-4px 0 14px;font-size:15px;color:var(--muted)}
+.glos .ex{font-size:14px;color:var(--fg);background:var(--surface-2);border-radius:12px;padding:8px 12px;margin:-4px 0 14px}
+@supports (interpolate-size:allow-keywords){
+ .glos details{interpolate-size:allow-keywords}
+ .glos details::details-content{height:0;overflow:clip;opacity:0;transition:height var(--dur-calm) var(--ease-calm),opacity var(--dur-fade),content-visibility var(--dur-calm) allow-discrete}
+ .glos details[open]::details-content{height:auto;opacity:1}
+}
+.empty{color:var(--muted);text-align:center;padding:20px 0}
+
+/* quests & cards */
+.section-h{font-size:22px;margin:28px 0 4px}
+main>.section-h:first-child{margin-top:6px}
+.sub{color:var(--muted);font-size:14px;margin:0 0 14px}
+.card{background:var(--surface);box-shadow:var(--shadow-soft);border-radius:var(--r);padding:16px 18px}
+.quest{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.quest:first-child{border-top:0;padding-top:2px} .quest:last-child{padding-bottom:2px}
+.quest .q-ic{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center}
+.quest .q-ic svg{width:22px;height:22px;color:#fff}
+.quest .q-main{flex:1;min-width:0}
+.q-title{font-weight:600}
+.q-desc{font-size:13px;color:var(--muted)}
+.qbtn{flex:none;border:0;background:var(--surface-2);border-radius:999px;min-width:56px;height:40px;font-weight:600;font-size:14px;padding:0 12px;display:grid;place-items:center;font-variant-numeric:tabular-nums}
+.qbtn:active{scale:.9}
+.qbtn.done{background:var(--sel-fill);box-shadow:var(--gloss);color:var(--on-sel)}
+.qbtn.pop{animation:pop var(--dur-spring) var(--ease-spring)}
+@keyframes pop{from{transform:scale(.55)}}
+.goalpick{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.goalpick button{display:flex;align-items:center;gap:10px;text-align:left;border:0;background:var(--surface);box-shadow:var(--shadow-soft);border-radius:18px;padding:12px 14px;font-weight:600}
+.goalpick button:active{scale:.97}
+.goalpick small{display:block;font-weight:500;font-size:13px;color:var(--muted)}
+.goalpick .radio{flex:none;margin-left:auto;width:22px;height:22px;border-radius:50%;background:var(--fill-strong);display:grid;place-items:center}
+.goalpick .radio::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--on-sel);scale:0;transition:scale var(--dur-spring) var(--ease-spring)}
+.goalpick button[aria-pressed="true"]{background:linear-gradient(90deg,color-mix(in oklab,var(--sel-a) 26%,var(--surface)),color-mix(in oklab,var(--sel-b) 26%,var(--surface)));box-shadow:inset 0 0 0 1px color-mix(in oklab,var(--sel-a) 55%,transparent)}
+.goalpick button[aria-pressed="true"] .radio{background:var(--sel-fill);box-shadow:var(--gloss)}
+.goalpick button[aria-pressed="true"] .radio::after{scale:1}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.tile{background:var(--surface);box-shadow:var(--shadow-soft);border-radius:24px;padding:14px;display:flex;gap:10px;align-items:center}
+.tile svg{width:40px;height:40px;padding:9px;flex:none;border-radius:50%;background:color-mix(in oklab,currentColor 14%,transparent)}
+.tile b{display:block;font-size:20px;line-height:1.1;font-variant-numeric:tabular-nums}
+.tile span{font-size:13px;color:var(--muted)}
+.week{display:flex;justify-content:space-between;gap:4px;margin-top:10px}
+.day{flex:1;text-align:center;font-size:12px;font-weight:600;color:var(--muted)}
+.day i{display:grid;place-items:center;margin:6px auto 0;width:36px;height:36px;border-radius:50%;background:var(--surface-2)}
+.day i.hit{background:var(--sel-fill);box-shadow:var(--gloss);color:var(--on-sel)} .day i.frz{background:var(--ice);color:#fff}
+.day i.today{box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--fg)}
+.day i svg{width:16px;height:16px}
+.lvl{display:flex;align-items:center;gap:14px}
+
+/* library */
+.lib-group{margin-top:12px}
+.lib-group h3{font-size:17px;margin-bottom:4px}
+.lib-item{padding:11px 0;border-top:1px solid var(--line);font-size:15px}
+.lib-item:first-of-type{border-top:0}
+.lib-item:last-child{padding-bottom:2px}
+.lib-item small{display:block;color:var(--muted);font-size:13px;margin-top:1px}
+.pill{display:inline-block;font-size:11px;font-weight:600;border-radius:999px;padding:2px 8px;margin-left:6px;vertical-align:2px;background:var(--surface-2);color:var(--muted)}
+
+/* tabs: barra flotante con píldora que se desliza */
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:25;pointer-events:none;background:linear-gradient(transparent,var(--bg) 55%);padding:18px max(12px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px))}
+.tabs div{pointer-events:auto;position:relative;max-width:496px;margin:0 auto;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));background:var(--surface);border-radius:30px;padding:6px;box-shadow:var(--shadow-knob),var(--shadow-soft)}
+.tabs .glide{position:absolute;top:6px;bottom:6px;left:6px;width:calc((100% - 12px)/5);border-radius:24px;background:var(--surface-2);transform:translateX(calc(var(--i,0)*100%));transition:transform var(--dur-spring) var(--ease-spring)}
+.tabs button{position:relative;border:0;background:transparent;border-radius:24px;padding:7px 2px 6px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11.5px;font-weight:600;color:var(--muted);min-width:0}
+.tabs button:active{scale:.9}
+@media (max-width:380px){.tabs button{font-size:10.5px}}
+.tabs button svg{width:24px;height:24px}
+.tabs button[aria-current="page"]{color:var(--fg)}
+
+/* toast / celebrate */
+.toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 96px);translate:-50% 0;z-index:65;display:flex;align-items:center;gap:10px;height:48px;padding:0 18px 0 8px;border-radius:999px;background:var(--surface);box-shadow:var(--shadow-knob),var(--shadow-soft);font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap;pointer-events:none;animation:rise-in var(--dur-spring) var(--ease-spring),toast-out var(--dur-fade) 1.5s forwards}
+body:has(.scrim) .toast{bottom:auto;top:calc(env(safe-area-inset-top,0px) + 14px)}
+.toast i{width:32px;height:32px;border-radius:50%;background:var(--sel-fill);box-shadow:var(--gloss);color:var(--on-sel);display:grid;place-items:center}
+.toast i svg{width:16px;height:16px}
+@keyframes toast-out{to{opacity:0;transform:translateY(-8px) scale(.94)}}
+.celebrate{position:fixed;inset:0;z-index:70;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px max(24px,env(safe-area-inset-right,0px)) 24px max(24px,env(safe-area-inset-left,0px));text-align:center;overflow:hidden;animation:fade-in var(--dur-fade)}
+.celebrate h2{font-size:30px}
+.celebrate .big{width:112px;height:112px;border-radius:50%;background:var(--sel-fill);box-shadow:var(--gloss),var(--shadow-soft);color:var(--on-sel);display:grid;place-items:center;animation:pop var(--dur-spring) var(--ease-spring)}
+.celebrate .big svg{width:52px;height:52px}
+.celebrate .btn{max-width:340px;position:relative}
+.confetti{position:absolute;top:-20px;width:10px;height:14px;border-radius:3px;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+.savenote{font-size:12px;color:var(--muted);text-align:center;margin-top:22px}
+@media (hover:hover){
+ .btn:hover{background:color-mix(in oklab,var(--accent),var(--on-accent) 12%)}
+ .btn.ghost:hover,.qbtn:not(.done):hover,.unit .info:hover{background:var(--fill-strong)}
+ .hero .btn.ghost:hover{background:color-mix(in oklab,var(--on-accent) 22%,transparent)}
+ .hero .btn.cyber:hover,.hero .btn.eng:hover{background:var(--sel-fill);filter:brightness(1.06)}
+ .btn.danger:hover{background:color-mix(in oklab,var(--danger),#fff 12%)}
+ .node:not(:active):hover{scale:1.06}
+ .chips button:not([aria-pressed="true"]):hover,.goalpick button:not([aria-pressed="true"]):hover{box-shadow:var(--shadow-knob)}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+
+<div class="app" id="app">
+  <header class="top">
+    <div class="trackswitch" role="group" aria-label="Ruta"><span class="glide" aria-hidden="true"></span>
+      <button id="t-cyber" aria-pressed="true">Ciber</button>
+      <button id="t-eng" aria-pressed="false">Inglés</button>
+    </div>
+    <span class="stat flame" id="s-streak" title="Racha de días"></span>
+    <span class="stat ice" id="s-freeze" title="Protectores de racha"></span>
+    <span class="stat xp" id="s-xp" title="XP total"></span>
+  </header>
+  <main id="view"></main>
+  <p class="savenote" id="savenote"></p>
+</div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="selg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--sel-a)"/><stop offset="1" style="stop-color:var(--sel-b)"/></linearGradient></defs></svg>
+<nav class="tabs" aria-label="Secciones"><div><span class="glide" aria-hidden="true"></span>
+  <button data-tab="ruta" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="19" r="2"/><circle cx="18" cy="5" r="2"/><path d="M8 19h7a3.5 3.5 0 0 0 0-7H9a3.5 3.5 0 0 1 0-7h7"/></svg>Ruta</button>
+  <button data-tab="misiones"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>Misiones</button>
+  <button data-tab="biblioteca"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2 2 2 0 0 0 2 2h12"/></svg>Biblioteca</button>
+  <button data-tab="diccionario"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Diccionario</button>
+  <button data-tab="perfil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>Perfil</button>
+</div></nav>
+
+<script>
+/* ---------- icons ---------- */
+const I={
+ flame:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c1 4 5 6 5 11a5 5 0 0 1-10 0c0-2 1-3.5 2-4.5 0 2 1 3 2 3 0-3-1-6 1-9.5z"/></svg>',
+ ice:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 2v20M3.3 7l17.4 10M3.3 17L20.7 7M9 4l3 2 3-2M9 20l3-2 3 2"/></svg>',
+ xp:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>',
+ star:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .8-5.2 4.8 1.4 7L12 17.6 5.8 21.1l1.4-7L2 9.3l7-.8z"/></svg>',
+ check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>',
+ lock:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 10V8a5 5 0 0 1 10 0v2h1a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1zm2 0h6V8a3 3 0 0 0-6 0z"/></svg>',
+ trophy:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3h10v2h3v3a4 4 0 0 1-4 4h-.3A5 5 0 0 1 13 14.9V18h3v3H8v-3h3v-3.1A5 5 0 0 1 8.3 12H8a4 4 0 0 1-4-4V5h3zm0 4H6v1a2 2 0 0 0 1 1.7zm10 0v2.7A2 2 0 0 0 18 8V7z"/></svg>',
+ book:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2 2 2 0 0 0 2 2h12"/></svg>',
+ info:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.1"/></svg>',
+ ear:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M3 14v-2a9 9 0 0 1 18 0v2"/><rect x="3" y="14" width="4" height="7" rx="1.5"/><rect x="17" y="14" width="4" height="7" rx="1.5"/></svg>',
+ cards:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><rect x="3" y="7" width="13" height="14" rx="2"/><path d="M8 3h11a2 2 0 0 1 2 2v12"/></svg>',
+ play:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>',
+ talk:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>',
+ pen:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg>',
+ game:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="2" y="7" width="20" height="11" rx="5"/><path d="M7 10.5v4M5 12.5h4M16 12h.01M18 14h.01"/></svg>',
+ shield:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/></svg>',
+ fr:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>',
+ brief:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V4h6v3"/></svg>'
+};
+const L=(href,t)=>`<a href="${href}" target="_blank" rel="noopener">${t}</a>`;
+const U={
+ cisco:'https://www.netacad.com/es/career-paths/cybersecurity', thm:'https://tryhackme.com/path/outline/presecurity', cylab:'https://learn.cylabacademy.org/',
+ nb:'https://www.netacad.com/es/courses/networking-basics', pn:'https://www.youtube.com/playlist?list=PLIFyRwBY_4bRLmKfP1KnZA6rZbRHtxmXi', ccna:'https://www.youtube.com/playlist?list=PLxbwE86jKRgMpuZuLBivzlM8s2Dk5lXBQ',
+ bandit:'https://overthewire.org/wargames/bandit/', cs101:'https://tryhackme.com/path/outline/cybersecurity101', soc:'https://tryhackme.com/path/outline/soclevel1',
+ messer:'https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/sy0-701-comptia-security-plus-course/', ld:'https://app.letsdefend.io/', cd:'https://cyberdefenders.org/blueteam-ctf-challenges/',
+ ccst:'https://www.cisco.com/site/us/en/learn/training-certifications/exams/ccst-cybersecurity.html', p:'https://platzi.com/cursos/', efset:'https://www.efset.org/ef-set-50/'
+};
+const pz=(slug,t)=>L(U.p+slug+'/',t);
+
+/* ---------- content: tasks are [text, kind?] kind: g=modo juego, t=prueba, o=opcional ---------- */
+const TRACKS={
+cyber:{name:'Ciberseguridad',units:[
+ {title:'Arranque',goal:'Abre todas tus cuentas y prueba el primer reto.',lessons:[
+  {title:'El aperitivo',tasks:[
+   [`Crea tus cuentas en ${L(U.cisco,'Cisco Networking Academy')}, ${L(U.thm,'TryHackMe')} y ${L(U.cylab,'CyLab Security Academy')}.`],
+   [`Inscríbete en la ruta ${L(U.cisco,'Analista Junior en Ciberseguridad')} y termina su curso 1, ${L('https://www.netacad.com/es/courses/introduction-to-cybersecurity','Introducción a la Ciberseguridad')}: 6 horas y 5 módulos.`],
+   [`Mira la lección sobre analista SOC de ${L('https://simply-cyber-school.teachable.com/p/cybersecurity-career-launchpad-a-complete-resource-guide-for-career-changers','Cybersecurity Career Launchpad')} de Simply Cyber. Es tu destino.`],
+   [`Supera los niveles 0 a 3 de ${L('https://overthewire.org/wargames/bandit/bandit0.html','Bandit')}. Desde la terminal: <code>ssh bandit0@bandit.labs.overthewire.org -p 2220</code>, contraseña bandit0.`,'g'],
+   ['Pregúntale a tu amigo de Bancolombia qué certificación de entrada pesa más allá.']
+  ]}
+ ]},
+ {title:'Redes',goal:'Entender cómo viaja la información: IP, puertos, DNS, TCP y HTTP.',tip:`Si un tema no te entra en inglés, está el ${L('https://www.youtube.com/playlist?list=PLxnG_9vdV6-gEWV15pq89XK_W3G8vP5_0','CCNA completo en español')} de Pablo Hidalgo, o el ${pz('redes','Curso de Redes')} de Platzi.`,lessons:[
+  {title:'Cómo se comunica una red',tasks:[
+   [`Curso 2 de la ruta, ${L(U.nb,'Networking Basics')} (22 h): módulos 1 a 4.`],
+   [`Pre Security, módulo Introduction to Cyber Security: Offensive Security Intro, Defensive Security Intro y Careers in Cyber.`],
+   [`Ver: ${L(U.pn,'Networking Fundamentals')} de Practical Networking, videos 1 a 5.`],
+   [`Corre <code>ping</code>, <code>traceroute</code> y <code>nslookup</code> contra google.com y anota qué significa cada línea.`],
+   [`El ${L('https://primer.cylabacademy.org/','CTF Primer')} de CyLab y cinco retos de General Skills.`,'g'],
+   ['Dibuja la red de tu casa: router, Mac mini, iPad y celular.']
+  ]},
+  {title:'Principios y medios',tasks:[
+   ['Networking Basics, módulos 5 a 7: Communication Principles, Network Media y The Access Layer.'],
+   ['Pre Security, módulo Computer Fundamentals.'],
+   [`Ver: ${L(U.ccna,'Free CCNA')} de Jeremy's IT Lab, Day 3 (OSI y TCP/IP), y Networking Fundamentals, videos 6 a 10.`],
+   [`Cinco retos más de General Skills en la ${L('https://learn.cylabacademy.org/challenge-library','Challenge Library')} de CyLab.`,'g']
+  ]},
+  {title:'Direcciones IP',tasks:[
+   ['Networking Basics, módulos 8 a 10: The Internet Protocol, IPv4 and Network Segmentation e IPv6.'],
+   ['Pre Security, módulo Network Fundamentals.'],
+   ['Ver: Free CCNA, Day 7 y Day 8 (direccionamiento IPv4).'],
+   [`${L('https://www.youtube.com/playlist?list=PLIFyRwBY_4bQUE4IB5c4VPRyDoLgOdExE','Subnetting Mastery')} y 20 ejercicios en ${L('https://subnetipv4.com/','subnetipv4.com')}.`,'g']
+  ]},
+  {title:'Cómo viaja un paquete',tasks:[
+   ['Networking Basics, módulos 11 a 14: DHCP, Gateways, ARP y Routing Between Networks.'],
+   ['Pre Security, módulo How The Web Works: DNS, HTTP, How Websites Work y Putting it all together.'],
+   ['Ver: Free CCNA, Day 12 (la vida de un paquete) y Day 13 (subnetting).'],
+   ['20 ejercicios más de subnetting y retos fáciles de Web Exploitation en CyLab.','g']
+  ]},
+  {title:'Transporte y prueba',test:true,tasks:[
+   ['Networking Basics, módulos 15 a 17: TCP and UDP, Application Layer Services y Network Testing Utilities.'],
+   ['Examen final de Networking Basics: con 70% o más ganas la insignia.'],
+   [`Instala ${L('https://www.wireshark.org/','Wireshark')}, abre una página y encuentra la consulta DNS y el saludo de tres pasos de TCP.`],
+   ['Explica en voz alta y por escrito qué pasa desde que escribes una dirección hasta que ves la página, y dibuja tu red con IP, puerta de enlace y DNS.','t'],
+   ['Publica esa explicación en inglés en LinkedIn.','g']
+  ]}
+ ]},
+ {title:'Linux',goal:'Moverte en la terminal sin miedo. Meta: nivel 20 de Bandit con tres pistas como máximo.',tip:`Regla de Bandit: 25 minutos de intento por nivel antes de buscar pista, y la pista es el comando, no la solución. En español: ${L('https://www.youtube.com/@PeladoNerd','Pelado Nerd')}.`,lessons:[
+  {title:'Primeros pasos en la terminal',tasks:[
+   [`${L('https://www.netacad.com/es/courses/linux-unhatched','Linux Unhatched')} de Cisco: 8 horas, gratis.`],
+   [`${L(U.bandit,'Bandit')}, niveles 4 a 8.`],
+   [`Ver: ${L('https://www.youtube.com/playlist?list=PLIhvC56v63IJIujb5cyE13oLuyORZpdkL','Linux for Hackers')} de NetworkChuck, episodios 1 a 3.`],
+   ['Bandit hasta donde llegues.','g']
+  ]},
+  {title:'Archivos, permisos y búsquedas',tasks:[
+   ['Bandit, niveles 9 a 13.'],
+   ['Pre Security, módulo Operating Systems Basics.'],
+   ['Ver: Linux for Hackers, episodios 4 a 6.'],
+   [`Si es diciembre: ${L('https://tryhackme.com/adventofcyber','Advent of Cyber')} de TryHackMe, un reto diario gratis. Si no, más Bandit.`,'g']
+  ]},
+  {title:'La terminal y la red',tasks:[
+   ['Bandit, niveles 14 a 17.'],
+   ['Pre Security, módulo Software Basics.'],
+   ['Ver: Linux for Hackers, episodios 7 a 10.'],
+   ['Advent of Cyber o Bandit.','g']
+  ]},
+  {title:'Prueba de Linux',test:true,tasks:[
+   ['Bandit, niveles 18 a 20, con tres pistas como máximo en total.','t'],
+   ['Pre Security, módulo Attacks and Defenses. Con esto terminas la ruta.'],
+   [`${L('https://overthewire.org/wargames/leviathan/index.html','Leviathan')}, el siguiente juego de OverTheWire: 8 niveles fáciles.`,'o'],
+   [`Advent of Cyber o el ${L('https://www.sans.org/mlp/holiday-hack-challenge/','SANS Holiday Hack Challenge')}.`,'g']
+  ]}
+ ]},
+ {title:'Fundamentos y CCST',goal:'Amenazas, defensas, criptografía e incidentes, y tu primera certificación: CCST Cybersecurity.',tip:`Aquí activas TryHackMe Premium mes a mes (unos USD 14). El examen ${L(U.ccst,'CCST')} cuesta USD 125: sepáralo apenas empieces esta unidad; una fecha pagada es la mejor alarma.`,lessons:[
+  {title:'Arranca Premium',tasks:[
+   ['Activa TryHackMe Premium mensual y separa la fecha del examen CCST.'],
+   ['Curso 3 de la ruta, Networking Devices and Initial Configuration (22 h): el primer tercio.'],
+   [`${L(U.cs101,'Cyber Security 101')}: Start Your Cyber Security Journey y Linux Fundamentals 1, 2 y 3.`,'g']
+  ]},
+  {title:'Windows y Active Directory',tasks:[
+   ['Networking Devices and Initial Configuration, hasta las tres cuartas partes.'],
+   ['Módulo Windows and AD Fundamentals: Windows Fundamentals 1, 2 y 3, y Active Directory Basics.','g']
+  ]},
+  {title:'Línea de comandos',tasks:[
+   ['Termina Networking Devices y empieza el curso 4, Endpoint Security (27 h).'],
+   ['Módulo Command Line: Windows Command Line, PowerShell y Linux Shells.','g']
+  ]},
+  {title:'Protocolos',tasks:[
+   ['Endpoint Security, hasta la mitad.'],
+   ['Módulo Networking: Concepts, Essentials, Core Protocols y Secure Protocols.','g']
+  ]},
+  {title:'Herramientas de red',tasks:[
+   ['Endpoint Security, hasta el 90%.'],
+   ['Wireshark: The Basics, Tcpdump: The Basics y Nmap: The Basics.','g']
+  ]},
+  {title:'Criptografía',tasks:[
+   ['Termina Endpoint Security y empieza el curso 5, Network Defense (27 h).'],
+   ['Módulo Cryptography: Cryptography Basics, Public Key, Hashing Basics y John the Ripper.','g'],
+   [`${pz('fundamentos-criptografia','Curso de Fundamentos de Criptografía')} de Platzi, si algo no te entra.`,'o']
+  ]},
+  {title:'Explotación',tasks:[
+   ['Network Defense, hasta la mitad.'],
+   ['El divertido: Exploitation Basics: Moniker Link, Metasploit (Introduction, Exploitation, Meterpreter) y Blue.','g']
+  ]},
+  {title:'Defensa',tasks:[
+   ['Network Defense, hasta el 90%.'],
+   ['Módulo Defensive Security: SOC, forense digital, respuesta a incidentes y logs.','g']
+  ]},
+  {title:'Soluciones de seguridad',tasks:[
+   ['Termina Network Defense y lleva el curso 6, Cyber Threat Management (16 h), a la mitad.'],
+   ['Módulo Security Solutions: SIEM, Firewall, IDS y Vulnerability Scanner.','g']
+  ]},
+  {title:'Examen CCST',test:true,tasks:[
+   ['Termina Cyber Threat Management y el examen final de la ruta.'],
+   [`Repasa los cinco temas del ${L(U.ccst,'CCST')}: principios, seguridad de red, de equipos, vulnerabilidades y riesgo, e incidentes.`],
+   ['Presenta el CCST Cybersecurity: 50 minutos, en español.','t'],
+   ['Día libre: te lo ganaste.','g']
+  ]}
+ ]},
+ {title:'Analista SOC',goal:'Hacer el trabajo de un analista de nivel 1: revisar alertas, investigar y escribir el informe. Y postularte desde ya.',tip:`Ruta ${L(U.soc,'SOC Level 1')} de TryHackMe: 65 h. Cada informe: una página en inglés en LinkedIn o GitHub.`,lessons:[
+  {title:'El equipo azul',tasks:[
+   ['Blue Team Introduction: Junior Security Analyst Intro, SOC Role, Humans y Systems as Attack Vectors.'],
+   ['SOC Team Internals: Alert Triage, Alert Reporting, Workbooks, Metrics y el simulador Introduction to Phishing.'],
+   [`Crea tu cuenta gratis en ${L(U.ld,'LetsDefend')} y resuelve tus primeras alertas (15 al mes).`,'g'],
+   ['Postúlate a dos cargos de analista SOC o soporte de seguridad.']
+  ]},
+  {title:'EDR y SIEM',tasks:[
+   ['Core SOC Solutions: EDR, SIEM, Splunk, Elastic Stack y SOAR.'],
+   [`Ver: ${L(U.messer,'Security+ SY0-701')} de Professor Messer, sección 4, videos 1 a 10.`],
+   [`Un laboratorio fácil de ${L(U.cd,'CyberDefenders')}: Lockdown o FakeGPT.`,'g'],
+   ['Dos postulaciones.']
+  ]},
+  {title:'Marcos de defensa',tasks:[
+   ['Cyber Defence Frameworks: Pyramid Of Pain, Kill Chain, Unified Kill Chain, MITRE, Summit y Eviction.'],
+   ['Ver: Security Operations, videos 11 a 20.'],
+   ['Alertas de LetsDefend.','g'],
+   ['Informe 1: resumen en inglés de una investigación, publicado.'],
+   ['Dos postulaciones.']
+  ]},
+  {title:'Phishing',tasks:[
+   ['Phishing Analysis completo y el simulador Phishing Unfolding.'],
+   ['Ver: Security Operations, videos 21 a 29.'],
+   ['Otro laboratorio fácil de CyberDefenders.','g'],
+   ['Dos postulaciones.']
+  ]},
+  {title:'Tráfico de red',tasks:[
+   ['Network Traffic Analysis: Wireshark (Basics, Packet Operations, Traffic Analysis) y NetworkMiner.'],
+   ['Alertas de LetsDefend.','g'],
+   ['Informe 2.'],
+   ['Dos postulaciones.']
+  ]},
+  {title:'Monitoreo de red',tasks:[
+   ['Network Security Monitoring: exfiltración, MitM, IDS y Snort.'],
+   ['Un laboratorio de CyberDefenders.','g'],
+   ['Dos postulaciones.']
+  ]},
+  {title:'Web y Windows',tasks:[
+   ['Web Security Monitoring y el simulador Upload and Conquer.'],
+   ['Windows Security Monitoring: Windows Logging y Threat Detection 1, 2 y 3.'],
+   ['Alertas de LetsDefend.','g'],
+   ['Informe 3.'],
+   ['Dos postulaciones.']
+  ]},
+  {title:'Linux y malware',tasks:[
+   ['Linux Security Monitoring y el simulador BlackCat.'],
+   ['Malware Concepts for SOC: clasificación, análisis, Living Off the Land y Shadow Trace.'],
+   ['Un laboratorio de CyberDefenders.','g'],
+   ['Dos postulaciones.']
+  ]},
+  {title:'Inteligencia y SIEM',tasks:[
+   ['Threat Analysis Tools: Threat Intel de archivos, hashes, IP y dominios.'],
+   ['SIEM Triage for SOC: Splunk, Elastic, ItsyBitsy y Benign.'],
+   ['Alertas de LetsDefend.','g'],
+   ['Informe 4.'],
+   ['Dos postulaciones.']
+  ]},
+  {title:'Capstone',tasks:[
+   ['SOC Level 1 Capstone: Tempest, Boogeyman 1, 2 y 3, y los simuladores Hidden Hooks y Open Door.'],
+   ['Informe 5.'],
+   ['Dos postulaciones.']
+  ]},
+  {title:'Prueba final SOC',test:true,tasks:[
+   ['Ruta SOC Level 1 terminada, cinco informes publicados y al menos diez postulaciones.','t'],
+   ['Decide con tu amigo si vale la pena la certificación SAL1 de TryHackMe (desde USD 349).'],
+   ['Celebra. Después viene SOC de nivel 2 o el lado ofensivo.','g']
+  ]}
+ ]}
+]},
+eng:{name:'Inglés',units:[
+ {title:'Arranque',goal:'Mide de dónde partes.',lessons:[
+  {title:'Tu punto de partida',tasks:[
+   [`Presenta la ${L(U.efset,'prueba EF SET de 50 minutos')} y guarda el puntaje. B2 va de 51 a 60, C1 de 61 a 70.`],
+   ['Agrega el certificado a LinkedIn.'],
+   [`${pz('estrategias-ingles','Curso Gratis de Estrategias para Aprender Inglés en Línea')}.`]
+  ]}
+ ]},
+ {title:'Repaso exprés A1 a B1',goal:'Tapar huecos rápido: 1,5x y salta lo que ya dominas.',tip:`Antes de cada curso de gramática, haz el ejercicio del mismo tema en el ${L('https://learnenglish.britishcouncil.org/free-resources/grammar/a1-a2','British Council')}: si lo aciertas sin dudar, pasa al siguiente.`,lessons:[
+  {title:'A1, gramática',tasks:[
+   [pz('ingles-a1-principiantes','Inglés Básico A1 para Principiantes')],[pz('verbo-tobe','A1: Verbo To Be')],[pz('presente-simple-vocabulario-comun','A1: Presente Simple')],[pz('verbos-comunes','A1: Verbos Comunes')],[pz('english-a1-dates-time-descriptions','A1: Fechas, Horas y Descripciones')],[pz('basic-english-a1-preferences-skills','A1: Preferencias y Habilidades')],[pz('fechas-horas-expresiones-simples','A1: Fechas, Horas y Expresiones Simples')]
+  ]},
+  {title:'A1, habilidades',tasks:[
+   [pz('basico-vocabulario-expresiones','Curso Básico de Vocabulario y Expresiones')],[pz('basico-pronunciacion','Curso Básico de Pronunciación')],[pz('ingles-basico-escritura','Curso Básico de Escritura')],[pz('parts-speech','Curso de Construcción de Oraciones')],[pz('uso-preposiciones','Audio Curso para el Uso de Preposiciones')]
+  ]},
+  {title:'A2, primera parte',tasks:[
+   [pz('basico-preguntas-respuestas','A2: Preguntas y Respuestas Comunes')],[pz('english-a2-basics-adverbs-time-expressions','A2: Adverbios y Expresiones de Tiempo')],[pz('english-a2-basics-proposals-permissions','A2: Propuestas y Permisos')],[pz('adverbios','A2: Sustantivos e Intenciones Futuras')],[pz('cantidad-gerundios','A2: Cuantificadores y Superlativos')]
+  ]},
+  {title:'A2, segunda parte',tasks:[
+   [pz('conjunciones-superlativos','A2: Conjunciones y Verbos')],[pz('infinitivos','A2: Infinitivos y Presente Continuo')],[pz('experiencias-pasadas','A2: Experiencias Pasadas y Planes')],[pz('ingles-basico-descripciones-comparativos','A2: Descripciones y Comparaciones')],[pz('ingles-uso-cotidiano','Audio Historia: Una Aventura en la Ciudad')]
+  ]},
+  {title:'B1, primera parte',tasks:[
+   [`Desde aquí el chequeo es con el ${L('https://learnenglish.britishcouncil.org/free-resources/grammar/b1-b2','British Council B1–B2')}.`,'o'],
+   [pz('expresiones-tiempo-cantidad','B1: Expresiones de Tiempo y Cantidad')],[pz('conectores-preferencias','B1: Descripción de Eventos y Preferencias')],[pz('primer-condicional-pasado-continuo','B1: Primer Condicional y Pasado Continuo')],[pz('presente-perfecto','B1: Presente Perfecto y Preposiciones')],[pz('pronombres-clausulas','B1: Pronombres y Cláusulas Relativas')],[pz('adjectives','B1: Adjetivos y Preguntas Indirectas')]
+  ]},
+  {title:'B1, segunda parte',test:true,tasks:[
+   [pz('prefijos-adjetivos','B1: Preguntas de Confirmación y Posibilidades')],[pz('solicitudes','B1: Solicitudes y Pronombres Reflexivos')],[pz('palabras-interrogativas-propositos','B1: Palabras Interrogativas y Propósitos')],[pz('comparativos-paralelos','B1: Comparativos y Planes Futuros')],[pz('voz-pasiva','B1: Voz Pasiva y Consejos')],[pz('estructuras-paralelas','B1: Preguntas Negativas y Recomendaciones')],
+   ['Terminaste las rutas A1, A2 y B1 de Platzi.','t'],
+   [pz('fitness-vocabulary','Inglés Práctico sobre Nutrición y Fitness'),'o']
+  ]}
+ ]},
+ {title:'B2 sólido',goal:'La ruta B2 completa y el inglés de ciberseguridad.',tip:`Desde aquí, la escucha diaria alterna Darknet Diaries con ${L(U.messer,'Security+ SY0-701')} de Professor Messer: 121 videos gratis de inglés técnico real.`,lessons:[
+  {title:'Suposiciones y opiniones',tasks:[[pz('oraciones-relativas','B2: Suposiciones e Instrucciones')],[pz('intenciones-comparaciones','B2: Comentarios y Opiniones')]]},
+  {title:'Pasado y condicionales',tasks:[[pz('pasado-perfecto-frases-adverbiales','B2: Pasado Perfecto y Frases Adverbiales')],[pz('condicionales-situaciones-hipoteticas','B2: Discurso Indirecto y Condicionales')]]},
+  {title:'Hábitos y phrasal verbs',tasks:[[pz('ingleshabitos','B2: Hábitos y Aproximaciones')],[pz('frases-expresiones-comunes','Curso de Phrasal Verbs Comunes')],[`Audiohistorias ${pz('origen-ingles','Origen del idioma')} y ${pz('interactivo-atrapados-tecnologia','Atrapados en la Tecnología')}.`,'o']]},
+  {title:'Vocabulario y pronunciación',tasks:[[pz('intermedio-vocabulario-expresiones','Curso Intermedio de Vocabulario y Expresiones')],[pz('ingles-intermedio-pronunciacion','Curso Intermedio de Pronunciación')]]},
+  {title:'Escritura',tasks:[[pz('intermedio-escritura','Curso Intermedio de Escritura')],[pz('ortografia-puntuacion-ingles','Curso de Ortografía y Puntuación')]]},
+  {title:'Conversación',tasks:[[pz('ingles-conversacional','Inglés Práctico y Conversacional')],[pz('taller-conversaciones-trabajo','Inglés Práctico para Conversaciones de Trabajo')]]},
+  {title:'Inglés para ciberseguridad',tasks:[[`${pz('ingles-ciberseguridad','Curso de Inglés para Ciberseguridad')}: siglas, un caso de ransomware, reporte de incidentes y estrategias de examen.`]]},
+  {title:'Prueba B2',test:true,tasks:[['Repite las prácticas del curso de ciberseguridad y cuenta en voz alta, en inglés, un reporte de incidente.'],[`${L(U.efset,'EF SET')} de 56 o más.`,'t']]}
+ ]},
+ {title:'Camino a C1',goal:'Un curso de la ruta C1 por lección y dos temas de gramática C1.',tip:`Gramática: los 14 temas de ${L('https://learnenglish.britishcouncil.org/free-resources/grammar/c1','C1 del British Council')}: inversión, cleft sentences, elipsis y otros.`,lessons:[
+  {title:'Argumentar',tasks:[[pz('ingles-avanzado-argumentacion','C1: Argumentos y Discusiones')],['British Council C1, temas 1 y 2']]},
+  {title:'Recursos conversacionales',tasks:[[pz('recursos-linguisticos','C1: Recursos Conversacionales y Lingüísticos')],['British Council C1, temas 3 y 4']]},
+  {title:'Persuadir',tasks:[[pz('comunicacion-persuasiva','C1: Comunicación Persuasiva y Efectiva')],['British Council C1, temas 5 y 6']]},
+  {title:'Presentar',tasks:[[pz('expresiones-idiomaticas','C1: Presentaciones y Expresión Oral')],['British Council C1, temas 7 y 8']]},
+  {title:'Lenguaje coloquial',tasks:[[`${pz('ingles-lenguaje-coloquial','C1: Lenguaje Coloquial y Habitual')}. Lección liviana: hazla la semana del examen CCST.`]]},
+  {title:'Vocabulario avanzado',tasks:[[pz('avanzado-vocabulario-expresiones','Curso Avanzado de Vocabulario y Expresiones')],['British Council C1, temas 9 y 10']]},
+  {title:'Pronunciación avanzada',tasks:[[pz('ingles-avanzado-pronunciacion','Curso Avanzado de Pronunciación')],['British Council C1, temas 11 y 12']]},
+  {title:'Escritura avanzada',tasks:[[pz('ingles-avanzado-escritura','Curso Avanzado de Escritura')],['British Council C1, temas 13 y 14']]},
+  {title:'Conectores informales',tasks:[[pz('reducciones-conectores','Curso de Conectores y Contracciones Informales')]]},
+  {title:'Inglés de negocios',tasks:[[pz('frases-expresiones-negocios','Curso de Expresiones Idiomáticas de Negocios')]]},
+  {title:'Entrevistas',tasks:[['Dos simulacros de entrevista en inglés para analista SOC: graba tus respuestas y escúchalas.'],['Pule tu perfil de LinkedIn en inglés.']]},
+  {title:'Prueba C1',test:true,tasks:[[`${L(U.efset,'EF SET')} de 61 o más: C1.`,'t'],['Agrega el certificado a LinkedIn y a tu hoja de vida.']]}
+ ]}
+]}};
+const EASY={cyber:[
+ 'Abres las cuentas que vas a usar y pruebas tu primer reto. No necesitas saber nada todavía.',
+ 'Una red es la forma en que los equipos se hablan. Aprendes qué pasa cuando abres una página: direcciones (IP), nombres (DNS) y mensajes (TCP, HTTP). Es la base de todo lo demás.',
+ 'Linux es el sistema que usan casi todos los servidores. Aprendes a manejarlo escribiendo comandos en la terminal, sin mouse. Bandit es un juego donde cada nivel te obliga a usar un comando nuevo.',
+ 'Aprendes cómo atacan y cómo se defienden los sistemas: contraseñas, cifrado, virus y firewalls. Al final presentas el CCST, una certificación básica de Cisco.',
+ 'Un analista SOC vigila las alertas de seguridad de una empresa, decide cuáles son ataques reales e informa. Aquí practicas ese trabajo en simuladores y empiezas a postularte.'
+],eng:[
+ 'Haces una prueba gratis de 50 minutos para saber tu nivel real de inglés.',
+ 'Repaso rápido de lo básico. Si algo ya lo sabes, sáltalo: la idea es tapar huecos, no empezar de cero.',
+ 'Consolidas el inglés intermedio alto y aprendes el vocabulario de ciberseguridad.',
+ 'C1 es inglés avanzado: argumentar, presentar y entender sin esfuerzo. Es el nivel que piden muchos trabajos remotos.'
+]};
+for(const tk in EASY) EASY[tk].forEach((t,i)=>TRACKS[tk].units[i].easy=t);
+// stable ids
+for(const tk of Object.keys(TRACKS)) TRACKS[tk].units.forEach((u,ui)=>u.lessons.forEach((l,li)=>{l.id=`${tk}-${ui}-${li}`;l.unit=ui;l.track=tk;l.tasks=l.tasks.map((t,ti)=>({id:`${l.id}-${ti}`,html:t[0],kind:t[1]||''}));}));
+
+const DAILY=[
+ {id:'d-platzi',ic:'play',title:'Platzi inglés, 45 min',desc:'La lección de inglés en la que vas.',xp:15,color:'var(--eng)'},
+ {id:'d-listen',ic:'ear',title:'Escuchar, 30 min',desc:`Un episodio de ${L('https://darknetdiaries.com/','Darknet Diaries')} con la transcripción al lado.`,xp:10,color:'var(--cyber)'},
+ {id:'d-anki',ic:'cards',title:'Anki, 15 min',desc:'Las palabras nuevas que encontraste.',xp:5,color:'var(--ok)'},
+ {id:'d-fr',ic:'fr',title:'Francés, por gusto',desc:'Opcional: Duolingo, música o una serie en francés.',xp:5,color:'var(--gold-deep)'}
+];
+const WEEKLY=[
+ {id:'w-club',ic:'talk',title:'Hablar en grupo',desc:`${L('https://gringotuesdays.co/bogota','Gringo Tuesdays')} o un club de conversación.`,target:1,xp:20,color:'var(--eng)'},
+ {id:'w-convo',ic:'talk',title:'Hora y media de conversación',desc:`${L('https://www.meetup.com/meetup-group-cvcahiae/','Meetup por Zoom')}, ${L('https://www.tandem.net/','Tandem')} o ${L('https://www.hellotalk.com/','HelloTalk')}.`,target:1,xp:20,color:'var(--eng)'},
+ {id:'w-write',ic:'pen',title:'Escribe 150 palabras en inglés',desc:`Sobre lo que aprendiste en ciber. Pásalas por ${L('https://writeandimprove.com/','Write & Improve')} y publícalas.`,target:1,xp:20,color:'var(--cyber)'},
+ {id:'w-game',ic:'game',title:'Modo juego',desc:'Retos de CyLab o salas de TryHackMe, sin teoría.',target:2,xp:15,color:'var(--gold-deep)'}
+];
+
+const LIB=[
+ {h:'Cursos de ciberseguridad',items:[
+  [L(U.cisco,'Ruta Analista Junior en Ciberseguridad'),'Cisco · 120 h, 6 cursos','Gratis'],
+  [L(U.nb,'Networking Basics'),'Cisco · 22 h, 17 módulos','Gratis'],
+  [L('https://www.netacad.com/es/courses/linux-unhatched','Linux Unhatched'),'Cisco · 8 h','Gratis'],
+  [L(U.thm,'Pre Security'),'TryHackMe · 19 h','Gratis con límites'],
+  [L(U.cs101,'Cyber Security 101'),'TryHackMe · 46 h','Premium'],
+  [L(U.soc,'SOC Level 1'),'TryHackMe · 65 h','Premium'],
+  [L('https://platzi.com/ruta/fundamentos-de-ciberseguridad/','Fundamentos de Ciberseguridad'),'Platzi · 31 h, apoyo en español','Tu suscripción'],
+  [L('https://academy.hackthebox.com/path/preview/junior-cybersecurity-analyst','Junior Cybersecurity Analyst'),'Hack The Box Academy · después de la ruta','Mitad gratis']
+ ]},
+ {h:'Retos y laboratorios',items:[
+  [L(U.bandit,'Bandit'),'OverTheWire · terminal, niveles 0 a 33','Gratis'],
+  [L(U.cylab,'CyLab Security Academy'),'Carnegie Mellon · más de 490 retos','Gratis'],
+  [L('https://subnetipv4.com/','subnetipv4.com'),'Ejercicios de subnetting','Gratis'],
+  [L('https://tryhackme.com/adventofcyber','Advent of Cyber'),'TryHackMe · diciembre','Gratis'],
+  [L(U.ld,'LetsDefend'),'Simulador de analista SOC','15 alertas/mes gratis'],
+  [L(U.cd,'CyberDefenders'),'Laboratorios de defensa','Cuenta gratis'],
+  [L('https://dockerlabs.es/','DockerLabs'),'Máquinas para practicar ataque','Código abierto']
+ ]},
+ {h:'Videos y pódcasts',items:[
+  [L(U.pn,'Practical Networking'),'Redes y subnetting · inglés',''],
+  [L(U.ccna,"Jeremy's IT Lab"),'Free CCNA · inglés',''],
+  [L('https://www.youtube.com/playlist?list=PLxnG_9vdV6-gEWV15pq89XK_W3G8vP5_0','Pablo Hidalgo'),'CCNA completo · español',''],
+  [L('https://www.youtube.com/playlist?list=PLIhvC56v63IJIujb5cyE13oLuyORZpdkL','NetworkChuck'),'Linux for Hackers · inglés',''],
+  [L(U.messer,'Professor Messer'),'Security+ SY0-701 · inglés',''],
+  [L('https://www.youtube.com/@SimplyCyber','Simply Cyber'),'Noticias de seguridad diarias · inglés',''],
+  [L('https://www.youtube.com/@_JohnHammond','John Hammond'),'CTF y malware · inglés',''],
+  [L('https://www.youtube.com/@s4vitar','S4vitar'),'Hacking ético · español',''],
+  [L('https://darknetdiaries.com/','Darknet Diaries'),'Pódcast de ataques reales, con transcripción','']
+ ]},
+ {h:'Inglés fuera de Platzi',items:[
+  [L(U.efset,'EF SET'),'Mide tu nivel al cerrar cada unidad','Gratis'],
+  [L('https://learnenglish.britishcouncil.org/free-resources/grammar/english-grammar-reference','British Council LearnEnglish'),'Gramática con ejercicios, A1 a C1','Gratis'],
+  [L('https://writeandimprove.com/','Write & Improve'),'Corrige lo que escribes','Gratis'],
+  [L('https://breakingnewsenglish.com/','Breaking News English'),'Noticias por niveles; los 5 y 6 son los tuyos','Gratis'],
+  [L('https://www.youtube.com/@EnglishwithLucy','English with Lucy'),'Gramática y vocabulario B1 a C2','Gratis'],
+  [L('https://gringotuesdays.co/bogota','Gringo Tuesdays'),'Intercambio en la Zona Rosa','Gratis hasta las 7 p. m.'],
+  [L('https://www.italki.com/en/teachers/english','italki'),'Profesores particulares','Desde unos USD 4 a 10']
+ ]}
+];
+
+const DCATS=['Básicos','Redes','Sistemas','Ataques','Defensa y SOC','Herramientas','Certificaciones y plataformas','Inglés y la app'];
+// [término, en inglés, categoría (índice), definición, ejemplo]
+const DICT=[
+ ['Ciberseguridad','Cybersecurity',0,'Proteger computadores, redes y datos de ataques y accidentes.',''],
+ ['Tríada CIA','CIA Triad',0,'Los tres objetivos de la seguridad: Confidencialidad (solo lo ve quien debe), Integridad (nadie lo altera) y Disponibilidad (funciona cuando se necesita).','Un ransomware ataca la disponibilidad: no puedes abrir tus archivos.'],
+ ['Amenaza','Threat',0,'Algo o alguien que podría causar daño.','Un grupo criminal que roba datos de bancos.'],
+ ['Vulnerabilidad','Vulnerability',0,'Una debilidad que un atacante puede aprovechar.','Un programa sin actualizar.'],
+ ['Riesgo','Risk',0,'La probabilidad de que una amenaza aproveche una vulnerabilidad, por el daño que causaría.',''],
+ ['Exploit','Exploit',0,'El código o la técnica que aprovecha una vulnerabilidad.',''],
+ ['Activo','Asset',0,'Cualquier cosa de valor que hay que proteger: equipos, datos, cuentas.',''],
+ ['Autenticación','Authentication',0,'Comprobar quién eres: contraseña, huella, código.',''],
+ ['Autorización','Authorization',0,'Decidir qué puedes hacer una vez que se sabe quién eres.','Entras al sistema, pero no puedes ver la nómina.'],
+ ['MFA o 2FA','Multi-Factor Authentication',0,'Pedir dos o más pruebas para entrar, por ejemplo contraseña y un código en el celular.',''],
+ ['Mínimo privilegio','Least privilege',0,'Dar a cada persona solo los permisos que necesita para su trabajo.',''],
+ ['Hacker ético','Ethical hacker',0,'Alguien que ataca sistemas con permiso para encontrar fallas antes que los criminales.',''],
+ ['Equipo rojo y equipo azul','Red team / Blue team',0,'El rojo ataca (ofensiva); el azul defiende (defensiva). Tu ruta es de equipo azul.',''],
+
+ ['Red','Network',1,'Equipos conectados para enviarse información.','Tu router, tu celular y tu Mac forman una red.'],
+ ['LAN','Local Area Network',1,'Una red pequeña, como la de tu casa u oficina.',''],
+ ['Dirección IP','IP address',1,'La dirección de cada equipo en una red, como el número de una casa.','192.168.0.86'],
+ ['IPv4 e IPv6','IPv4 / IPv6',1,'Las dos versiones de direcciones IP. IPv4 tiene cuatro números; IPv6 es más larga porque las de IPv4 se agotaron.',''],
+ ['Subred','Subnet',1,'Una parte de una red. Hacer subnetting es dividir una red en partes más pequeñas.',''],
+ ['Puerta de enlace','Gateway',1,'El equipo por el que sales de tu red hacia internet; casi siempre tu router.',''],
+ ['DNS','Domain Name System',1,'La agenda de internet: traduce google.com a una dirección IP.',''],
+ ['DHCP','DHCP',1,'El servicio que le da una IP automáticamente a cada equipo que se conecta.',''],
+ ['Puerto','Port',1,'Un número que indica a qué servicio va un mensaje dentro de un equipo.','La web usa el 443; SSH, el 22.'],
+ ['Protocolo','Protocol',1,'Un conjunto de reglas para comunicarse.',''],
+ ['TCP','TCP',1,'Protocolo que asegura que los mensajes lleguen completos y en orden. Empieza con un saludo de tres pasos.',''],
+ ['UDP','UDP',1,'Protocolo más rápido que TCP pero sin garantías de entrega. Se usa en videollamadas.',''],
+ ['HTTP y HTTPS','HTTP / HTTPS',1,'El idioma de las páginas web. HTTPS es la versión cifrada: el candado del navegador.',''],
+ ['Paquete','Packet',1,'Cada trozo en que se divide la información que viaja por la red.',''],
+ ['Modelo OSI','OSI model',1,'Una forma de dividir la comunicación en 7 capas, del cable a la aplicación. Sirve para ubicar dónde falla algo.',''],
+ ['Router','Router',1,'Equipo que lleva los paquetes de una red a otra.',''],
+ ['Switch','Switch',1,'Equipo que conecta los dispositivos dentro de una misma red.',''],
+ ['VPN','Virtual Private Network',1,'Un túnel cifrado entre tu equipo y otra red.',''],
+
+ ['Sistema operativo','Operating System',2,'El programa base del computador: Windows, macOS, Linux.',''],
+ ['Linux','Linux',2,'Sistema operativo gratuito que usan casi todos los servidores.',''],
+ ['Terminal o línea de comandos','Terminal / CLI',2,'La ventana donde le das órdenes al computador escribiendo comandos.',''],
+ ['Comando','Command',2,'Una orden escrita en la terminal.','ls lista los archivos de una carpeta.'],
+ ['Shell','Shell',2,'El programa que interpreta tus comandos. Bash y PowerShell son ejemplos.',''],
+ ['Permisos','Permissions',2,'Reglas de quién puede leer, escribir o ejecutar un archivo.',''],
+ ['Root o administrador','Root / Admin',2,'La cuenta con todo el poder sobre el sistema. Es lo que más buscan los atacantes.',''],
+ ['SSH','Secure Shell',2,'Una forma segura de conectarte a otro computador desde tu terminal. Bandit lo usa.',''],
+ ['Servidor','Server',2,'Un computador que da un servicio a otros: una página web, correo, archivos.',''],
+ ['Active Directory','Active Directory',2,'El sistema de Microsoft que maneja usuarios y permisos en las empresas. Muy atacado.',''],
+ ['Logs o registros','Logs',2,'El historial de lo que pasa en un equipo: quién entró, qué falló, qué se ejecutó. Es la materia prima del analista.',''],
+ ['Máquina virtual','Virtual Machine',2,'Un computador simulado dentro de otro. Sirve para practicar sin riesgo.',''],
+ ['Nube','Cloud',2,'Servidores de otra empresa que usas por internet, como AWS o Azure.',''],
+
+ ['Malware','Malware',3,'Cualquier programa dañino.',''],
+ ['Virus','Virus',3,'Malware que se copia en otros archivos y se propaga cuando los abres.',''],
+ ['Troyano','Trojan',3,'Malware disfrazado de programa útil.',''],
+ ['Ransomware','Ransomware',3,'Malware que cifra tus archivos y pide un rescate para devolverlos.',''],
+ ['Phishing','Phishing',3,'Correos o mensajes falsos que buscan robar contraseñas o instalar malware.','Un correo "del banco" con un enlace a una página copiada.'],
+ ['Ingeniería social','Social engineering',3,'Engañar a personas para que entreguen información o acceso.',''],
+ ['Fuerza bruta','Brute force',3,'Probar muchas contraseñas hasta acertar.',''],
+ ['DDoS','Distributed Denial of Service',3,'Saturar un servicio con tráfico desde muchos equipos para tumbarlo.',''],
+ ['Hombre en el medio','Man-in-the-Middle (MitM)',3,'El atacante se mete entre dos partes y lee o cambia lo que se dicen.',''],
+ ['Inyección SQL','SQL injection',3,'Meter código en un formulario web para manipular la base de datos.',''],
+ ['XSS','Cross-Site Scripting',3,'Meter código en una página para que se ejecute en el navegador de otros visitantes.',''],
+ ['Web shell','Web shell',3,'Un archivo que el atacante sube a un servidor web para controlarlo a distancia.',''],
+ ['Escalada de privilegios','Privilege escalation',3,'Pasar de un usuario normal a administrador.',''],
+ ['Exfiltración','Exfiltration',3,'Sacar datos de una empresa sin permiso.',''],
+ ['Living off the land','Living off the land',3,'Atacar usando herramientas que ya vienen en el sistema, para no levantar sospechas.',''],
+ ['Zero-day','Zero-day',3,'Una vulnerabilidad que nadie ha corregido todavía.',''],
+ ['APT','Advanced Persistent Threat',3,'Un grupo atacante muy organizado que se queda escondido por meses.',''],
+ ['IOC','Indicator of Compromise',3,'Una pista de que hubo un ataque: una IP maliciosa, un archivo raro, un hash conocido.',''],
+
+ ['SOC','Security Operations Center',4,'El equipo y el lugar donde una empresa vigila su seguridad las 24 horas.',''],
+ ['Analista SOC de nivel 1','SOC L1 Analyst',4,'Revisa alertas, decide si son ataques reales y escala o informa. Es tu meta de trabajo.',''],
+ ['Alerta','Alert',4,'Un aviso automático de que algo puede estar mal.',''],
+ ['Triage','Triage',4,'Revisar alertas rápido y decidir cuáles importan primero.',''],
+ ['Falso positivo','False positive',4,'Una alerta que parecía ataque pero no lo era. Casi todo el trabajo es separarlos.',''],
+ ['Incidente','Incident',4,'Un evento de seguridad confirmado que hay que atender.',''],
+ ['Respuesta a incidentes','Incident Response',4,'Los pasos para contener, eliminar y recuperarse de un ataque.',''],
+ ['Escalar','Escalate',4,'Pasar un caso a alguien con más experiencia, por ejemplo al nivel 2.',''],
+ ['SIEM','Security Information and Event Management',4,'Programa que junta los logs de toda la empresa y lanza alertas. Splunk y Elastic son ejemplos.',''],
+ ['EDR','Endpoint Detection and Response',4,'Antivirus avanzado que vigila y frena lo que pasa en cada computador.',''],
+ ['SOAR','SOAR',4,'Herramienta que automatiza respuestas repetitivas del SOC.',''],
+ ['Firewall','Firewall',4,'Filtro que deja pasar o bloquea tráfico según reglas.',''],
+ ['IDS e IPS','Intrusion Detection / Prevention System',4,'Sistemas que detectan (IDS) o detectan y bloquean (IPS) tráfico sospechoso. Snort es uno.',''],
+ ['Endpoint','Endpoint',4,'Cualquier equipo final: un portátil, un celular, un servidor.',''],
+ ['Threat intelligence','Threat intelligence',4,'Información sobre atacantes y sus técnicas para detectarlos antes.',''],
+ ['MITRE ATT&CK','MITRE ATT&CK',4,'Un catálogo público de técnicas de ataque. Sirve para clasificar lo que ves.',''],
+ ['Cyber Kill Chain','Cyber Kill Chain',4,'Las etapas de un ataque, de reconocer el objetivo a lograr su meta. Cortar una etapa frena el ataque.',''],
+ ['Forense digital','Digital forensics',4,'Investigar qué pasó en un equipo después de un ataque.',''],
+ ['Cifrado','Encryption',4,'Convertir información en algo ilegible sin la clave.',''],
+ ['Hash','Hash',4,'Una huella única de un archivo o texto. Si cambia un solo carácter, el hash cambia.','Se usa para saber si un archivo es un malware conocido.'],
+ ['Parche','Patch',4,'Una actualización que corrige una vulnerabilidad.',''],
+
+ ['Wireshark','Wireshark',5,'Programa que te deja ver los paquetes que pasan por tu red.',''],
+ ['Nmap','Nmap',5,'Herramienta que encuentra equipos y puertos abiertos en una red.',''],
+ ['Tcpdump','Tcpdump',5,'Como Wireshark, pero desde la terminal.',''],
+ ['Metasploit','Metasploit',5,'Herramienta para probar exploits en sistemas con permiso.',''],
+ ['John the Ripper','John the Ripper',5,'Herramienta para descifrar contraseñas a partir de sus hashes.',''],
+ ['Splunk y Elastic','Splunk / Elastic',5,'Los SIEM más usados. Los practicas en la unidad de analista SOC.',''],
+ ['Packet Tracer','Packet Tracer',5,'Simulador de redes de Cisco que usa el curso Networking Basics.',''],
+
+ ['CTF','Capture The Flag',6,'Retos donde buscas una bandera, un texto escondido, usando lo que sabes. Es la parte de juego.',''],
+ ['Bandit','OverTheWire Bandit',6,'Juego gratis por niveles: cada nivel esconde una contraseña que encuentras con comandos de Linux.',''],
+ ['TryHackMe y salas','TryHackMe rooms',6,'Plataforma para aprender practicando. Cada sala es una mini lección con preguntas y una máquina para atacar o defender.',''],
+ ['LetsDefend y CyberDefenders','LetsDefend / CyberDefenders',6,'Simuladores donde haces el trabajo de un analista con alertas y casos reales.',''],
+ ['Cisco Networking Academy','Cisco NetAcad',6,'Cursos gratis de Cisco, una de las empresas más grandes de redes. Dan insignias al aprobar.',''],
+ ['CCST Cybersecurity','CCST',6,'Certificación de entrada de Cisco: examen de 50 minutos, en español, de USD 125.',''],
+ ['Security+','CompTIA Security+',6,'Certificación de entrada muy pedida en empleos, más conocida que el CCST.',''],
+ ['SAL1','TryHackMe SAL1',6,'Certificación práctica de analista SOC de TryHackMe. Opcional, después de mayo.',''],
+ ['OSCP','OSCP',6,'Certificación difícil de hacking ofensivo. Es para más adelante.',''],
+ ['Pentesting','Penetration testing',6,'Atacar un sistema con permiso para encontrar fallas. Es el lado ofensivo.',''],
+
+ ['Postularte','Apply',7,'Enviar tu hoja de vida a una vacante. El plan te pide hacerlo desde la unidad 4.',''],
+ ['EF SET','EF SET',7,'Prueba de inglés gratis de 50 minutos. Da un puntaje: 51 a 60 es B2 y 61 a 70 es C1.',''],
+ ['B2 y C1','B2 / C1',7,'Niveles de inglés. B2 es intermedio alto; C1 es avanzado.',''],
+ ['Anki','Anki',7,'App de tarjetas para memorizar palabras: te las repite justo antes de que las olvides.',''],
+ ['XP, racha y protector','XP / streak',7,'XP son los puntos que ganas. La racha cuenta los días seguidos que llegas a tu meta. Un protector salva la racha si fallas un día.','']
+];
+
+/* ---------- state ---------- */
+const DEFAULT={v:1,xp:0,done:{},unlocked:{},goal:20,sessions:{},seenIntro:0,days:{},streak:0,lastGoal:'',freezes:1,frozen:{},dq:{day:'',done:{}},wq:{week:'',n:{}},track:'cyber'};
+let S=structuredClone(DEFAULT), tab='ruta', store=null;
+const dkey=d=>{const z=new Date(d);return z.getFullYear()+'-'+String(z.getMonth()+1).padStart(2,'0')+'-'+String(z.getDate()).padStart(2,'0')};
+const today=()=>dkey(new Date());
+const addDays=(k,n)=>{const [y,m,d]=k.split('-').map(Number);return dkey(new Date(y,m-1,d+n))};
+const diffDays=(a,b)=>{const p=k=>{const [y,m,d]=k.split('-').map(Number);return Date.UTC(y,m-1,d)};return Math.round((p(b)-p(a))/864e5)};
+const weekKey=()=>{const n=new Date();const day=(n.getDay()+6)%7;return dkey(new Date(n.getFullYear(),n.getMonth(),n.getDate()-day))};
+
+function reconcile(){
+  const t=today();
+  if(S.dq.day!==t) S.dq={day:t,done:{}};
+  if(S.wq.week!==weekKey()) S.wq={week:weekKey(),n:{}};
+  if(!S.lastGoal||S.streak===0) return;
+  const gap=diffDays(S.lastGoal,t)-1; // full days missed
+  if(gap<=0) return;
+  if(gap<=S.freezes){
+    for(let i=1;i<=gap;i++) S.frozen[addDays(S.lastGoal,i)]=1;
+    S.freezes-=gap; S.lastGoal=addDays(t,-1);
+  } else { S.streak=0; }
+}
+let saveT;
+function save(){
+  clearTimeout(saveT);
+  saveT=setTimeout(async()=>{
+    try{ if(store) await store.set(JSON.parse(JSON.stringify(S))); else localStorage.setItem('ruta-analista',JSON.stringify(S)); }catch(e){}
+  },500);
+}
+function gainXP(n){
+  const t=today(); S.xp=Math.max(0,S.xp+n); S.days[t]=Math.max(0,(S.days[t]||0)+n);
+  if(n>0){
+    floatXP('+'+n+' XP');
+    if(S.days[t]>=S.goal && S.lastGoal!==t){
+      S.streak = (S.lastGoal===addDays(t,-1)) ? S.streak+1 : 1;
+      S.lastGoal=t;
+      if(S.streak%7===0 && S.freezes<2){S.freezes++;}
+      setTimeout(()=>celebrate('¡Meta del día!',`Racha de ${S.streak} ${S.streak===1?'día':'días'}.`+(S.streak%7===0?' Ganaste un protector de racha.':''),I.flame,'var(--flame)'),900);
+    }
+  }
+}
+
+/* ---------- helpers ---------- */
+const lessonsOf=tk=>TRACKS[tk].units.flatMap(u=>u.lessons);
+const doneCount=l=>l.tasks.filter(t=>S.done[t.id]).length;
+const isDone=l=>doneCount(l)===l.tasks.length;
+const isOpen=(l,idx,arr)=>idx===0||S.unlocked[l.id]||isDone(arr[idx-1])||doneCount(l)>0;
+const taskXP=t=>t.kind==='t'?30:t.kind==='o'?5:10;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function floatXP(txt){document.querySelector('.toast')?.remove();const d=document.createElement('div');d.className='toast';d.setAttribute('role','status');d.innerHTML='<i>'+I.xp+'</i>'+esc(txt);document.body.appendChild(d);setTimeout(()=>d.remove(),1800)}
+const pring=(p,size,label)=>{const r=44,c=2*Math.PI*r;return `<div class="pring" style="--s:${size}px"><svg viewBox="0 0 100 100" aria-hidden="true"><circle class="bgc" cx="50" cy="50" r="${r}"/><circle class="fgc" cx="50" cy="50" r="${r}" stroke-dasharray="${c}" stroke-dashoffset="${c*(1-Math.max(0,Math.min(1,p)))}"${p>0?'':' opacity="0"'}/></svg><b>${label}</b></div>`};
+
+/* ---------- render ---------- */
+const $=s=>document.querySelector(s);
+function renderTop(){
+  $('#t-cyber').setAttribute('aria-pressed',S.track==='cyber');
+  $('#t-eng').setAttribute('aria-pressed',S.track==='eng');
+  const hit=S.lastGoal===today();
+  const st=$('#s-streak'); st.innerHTML=I.flame+S.streak; st.classList.toggle('off',!hit);
+  $('#s-freeze').innerHTML=I.ice+S.freezes;
+  $('#s-xp').innerHTML=I.xp+S.xp;
+  const ts=document.querySelector('.trackswitch'); ts.hidden = tab!=='ruta'; ts.dataset.on=S.track;
+  document.querySelector('.tabs div').style.setProperty('--i',['ruta','misiones','biblioteca','diccionario','perfil'].indexOf(tab));
+  document.querySelectorAll('.tabs button').forEach(b=>{b.toggleAttribute('aria-current',b.dataset.tab===tab); if(b.dataset.tab===tab) b.setAttribute('aria-current','page');});
+}
+function render(){
+  renderTop();
+  const v=$('#view');
+  if(tab==='ruta') v.innerHTML=renderPath();
+  else if(tab==='misiones') v.innerHTML=renderQuests();
+  else if(tab==='biblioteca') v.innerHTML=renderLib();
+  else if(tab==='diccionario'){v.innerHTML=renderDict();filterDict();}
+  else v.innerHTML=renderProfile();
+}
+function renderPath(){
+  const tk=S.track, all=lessonsOf(tk);
+  let firstOpenUndone=all.find((l,i)=>isOpen(l,i,all)&&!isDone(l));
+  let html='', gi=0;
+  if(firstOpenUndone){
+    const l=firstOpenUndone, nt=l.tasks.find(t=>!S.done[t.id]), xpT=Math.min(S.days[today()]||0,S.goal);
+    html+=`<section class="hero"><div class="hero-head"><div><div class="eyebrow">Sigue aquí · Unidad ${l.unit}</div><h2>${esc(l.title)}</h2><div class="meta">${doneCount(l)} de ${l.tasks.length} tareas · Hoy ${xpT} de ${S.goal} XP</div></div>${pring(xpT/S.goal,76,`${xpT}<small>/${S.goal}</small>`)}</div>
+     <div class="next">${nt.html}</div>
+     <div class="row"><button class="btn ghost" data-session="${l.id}">Estudié 25 min</button><button class="btn ${tk}" data-lesson="${l.id}">Abrir</button></div></section>`;
+  }
+  TRACKS[tk].units.forEach((u,ui)=>{
+    html+=`<section class="unit ${tk}"><div class="unit-av" aria-hidden="true">${ui}</div><div class="unit-body"><div class="eyebrow">Unidad ${ui}</div><h2>${esc(u.title)}</h2><p>${esc(u.goal)}</p></div><button class="info" data-tip="${ui}" aria-label="¿De qué va esta unidad?">${I.info}</button></section><div class="path">`;
+    u.lessons.forEach((l,li)=>{
+      const idx=gi++, open=isOpen(l,idx,all), done=isDone(l), n=doneCount(l), tot=l.tasks.length;
+      const off=Math.round(Math.sin(idx*0.9)*70);
+      const cls=['node',tk,done?'done':open?'open':'locked',l.test?'test':'',firstOpenUndone===l?'cur':''].join(' ');
+      const icon=done?I.check:!open?I.lock:l.test?I.trophy:I.star;
+      const r=44,c=2*Math.PI*r,p=n/tot;
+      const ring=(open&&!done&&n>0)?`<svg class="ring" viewBox="0 0 100 100"><circle class="bgc" cx="50" cy="50" r="${r}"/><circle class="fgc" cx="50" cy="50" r="${r}" stroke-dasharray="${c}" stroke-dashoffset="${c*(1-p)}" transform="rotate(-90 50 50)"/></svg>`:'';
+      const bubble=(firstOpenUndone===l)?`<span class="bubble"><i>${I.play}</i>${n?'Seguir':'Empezar'}</span>`:'';
+      html+=`<div class="node-wrap" style="transform:translateX(${off}px)">${bubble}<button class="${cls}" data-lesson="${l.id}" aria-label="${esc(l.title)}: ${n} de ${tot}">${ring}${icon.replace('<svg','<svg class="ic"')}</button><div class="node-label">${esc(l.title)}</div></div>`;
+    });
+    html+='</div>';
+  });
+  return html;
+}
+let fresh=null; // misión recién tocada: su botón entra con un rebote
+function questRow(q,cur,target,isWeekly){
+  const done=cur>=target;
+  const btn=isWeekly
+    ? `<button class="qbtn ${done?'done':''} ${fresh===q.id?'pop':''}" data-wq="${q.id}" aria-label="Sumar">${done?I.check.replace('<svg','<svg width="20" height="20"'):cur+'/'+target}</button>`
+    : `<button class="qbtn ${done?'done':''} ${fresh===q.id?'pop':''}" data-dq="${q.id}" aria-label="${done?'Desmarcar':'Hecho'}">${done?I.check.replace('<svg','<svg width="20" height="20"'):'+'+q.xp}</button>`;
+  return `<div class="quest"><div class="q-ic" style="background:${q.color}">${I[q.ic]}</div><div class="q-main"><div class="q-title">${esc(q.title)}</div><div class="q-desc">${q.desc}</div>${isWeekly?`<div class="qbar"><i style="width:${Math.min(100,cur/target*100)}%"></i></div>`:''}</div>${btn}</div>`;
+}
+function renderQuests(){
+  const t=today(), xpToday=S.days[t]||0, pct=Math.min(100,xpToday/S.goal*100);
+  return `<h2 class="section-h">Meta del día</h2><p class="sub">Sin horario: cualquier momento del día cuenta. Llega a tu meta y la racha sube.</p>
+  <div class="card"><div class="quest"><div class="q-ic" style="background:var(--flame)">${I.flame}</div><div class="q-main"><div class="q-title">${xpToday} de ${S.goal} XP hoy</div><div class="qbar"><i style="width:${pct}%"></i></div></div></div></div>
+  <h2 class="section-h">Misiones diarias</h2><p class="sub">Hábitos de inglés. No tienes que hacerlas todas: una o dos ya suman. Se reinician cada día.</p>
+  <div class="card">${DAILY.map(q=>questRow(q,S.dq.done[q.id]?1:0,1,false)).join('')}</div>
+  <h2 class="section-h">Misiones de la semana</h2><p class="sub">Hazlas el día que puedas. Se reinician el lunes.</p>
+  <div class="card">${WEEKLY.map(q=>questRow(q,S.wq.n[q.id]||0,q.target,true)).join('')}</div>`;
+}
+let dq='', dcat=-1;
+function renderDict(){
+  return `<h2 class="section-h">Diccionario</h2><p class="sub">${DICT.length} términos de ciberseguridad en palabras simples, con su nombre en inglés.</p>
+  <label class="searchbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input class="search" id="dict-q" type="text" inputmode="search" enterkeyhint="search" placeholder="Busca: phishing, puerto, SIEM…" value="${esc(dq)}" autocomplete="off" aria-label="Buscar en el diccionario"></label>
+  <div class="chips" role="group" aria-label="Categoría"><button data-dcat="-1" aria-pressed="${dcat===-1}">Todo</button>${DCATS.map((c,i)=>`<button data-dcat="${i}" aria-pressed="${dcat===i}">${esc(c)}</button>`).join('')}</div>
+  ${DCATS.map((c,ci)=>`<div data-dgroup="${ci}"><div class="dict-cat">${esc(c)}</div><div class="card glos">${DICT.map((x,i)=>x[2]===ci?`<details data-dterm="${i}"><summary>${esc(x[0])}${x[1]&&x[1]!==x[0]?`<small>${esc(x[1])}</small>`:''}</summary><p>${esc(x[3])}</p>${x[4]?`<div class="ex">Ejemplo: ${esc(x[4])}</div>`:''}</details>`:'').join('')}</div></div>`).join('')}
+  <p class="empty" id="dict-empty" hidden>Nada con esa palabra. Prueba en inglés o con otra parecida.</p>`;
+}
+const norm=t=>t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+function filterDict(){
+  const q=norm(dq.trim()); let any=0;
+  document.querySelectorAll('[data-dterm]').forEach(el=>{const x=DICT[+el.dataset.dterm];const ok=(dcat===-1||x[2]===dcat)&&(!q||norm(x[0]+' '+x[1]+' '+x[3]).includes(q));el.hidden=!ok;if(ok)any++;if(q&&ok&&norm(x[0]+' '+x[1]).includes(q))el.open=true;});
+  document.querySelectorAll('[data-dgroup]').forEach(g=>{g.hidden=!g.querySelector('[data-dterm]:not([hidden])')});
+  const e=document.getElementById('dict-empty'); if(e) e.hidden=!!any;
+}
+document.addEventListener('input',e=>{if(e.target.id==='dict-q'){dq=e.target.value;filterDict()}});
+function renderLib(){
+  return `<h2 class="section-h">Biblioteca</h2><p class="sub">Si un día no sabes qué hacer, escoge algo de aquí.</p>`+
+   LIB.map(g=>`<div class="card lib-group"><h3>${esc(g.h)}</h3>${g.items.map(i=>`<div class="lib-item">${i[0]}${i[2]?`<span class="pill">${esc(i[2])}</span>`:''}<small>${esc(i[1])}</small></div>`).join('')}</div>`).join('');
+}
+function renderProfile(){
+  const lvl=Math.floor(S.xp/150)+1, inLvl=S.xp%150;
+  const t=today(); const days=[];
+  for(let i=6;i>=0;i--){const k=addDays(t,-i);const d=new Date(k+'T12:00');days.push({k,lab:'LMMJVSD'[(d.getDay()+6)%7],hit:(S.days[k]||0)>=S.goal,frz:!!S.frozen[k]});}
+  const cl=lessonsOf('cyber'), el=lessonsOf('eng');
+  const cd=cl.filter(isDone).length, ed=el.filter(isDone).length;
+  return `<h2 class="section-h">Tu progreso</h2><p class="sub">Sin fechas: avanzas a tu ritmo. Lo que importa es pasar cada prueba.</p>
+  <div class="card lvl">${pring(inLvl/150,68,lvl)}<div style="flex:1;min-width:0"><div class="q-title">Nivel ${lvl}</div><div class="q-desc">${S.xp} XP en total · faltan ${150-inLvl} para el nivel ${lvl+1}</div></div></div>
+  <div class="stats" style="margin-top:8px">
+   <div class="tile" style="color:var(--flame)">${I.flame}<div><b style="color:var(--fg)">${S.streak}</b><span>días de racha</span></div></div>
+   <div class="tile" style="color:var(--ice)">${I.ice}<div><b style="color:var(--fg)">${S.freezes}/2</b><span>protectores</span></div></div>
+   <div class="tile" style="color:var(--cyber)">${I.shield}<div><b style="color:var(--fg)">${cd}/${cl.length}</b><span>lecciones de ciber</span></div></div>
+   <div class="tile" style="color:var(--eng)">${I.talk}<div><b style="color:var(--fg)">${ed}/${el.length}</b><span>lecciones de inglés</span></div></div>
+  </div>
+  <div class="card" style="margin-top:8px"><div class="q-title">Últimos 7 días</div><div class="week">${days.map(d=>`<div class="day">${d.lab}<i class="${d.hit?'hit':d.frz?'frz':''} ${d.k===t?'today':''}">${d.hit?I.flame:d.frz?I.ice:''}</i></div>`).join('')}</div>
+  <p class="hint" style="margin:10px 0 0">Si un día no llegas a la meta, un protector cuida tu racha. Ganas uno cada 7 días de racha, hasta 2.</p></div>
+  <h2 class="section-h">Meta diaria</h2><p class="sub">Una tarea da 10 XP, una prueba 30 y cada sesión de 25 min 10. Normal son dos sesiones al día.</p>
+  <div class="goalpick" role="group" aria-label="Meta diaria">${[[10,'Suave'],[20,'Normal'],[40,'Seria'],[60,'Intensa']].map(([g,n])=>`<button data-goal="${g}" aria-pressed="${S.goal===g}"><span>${n}<small>${g} XP al día</small></span><i class="radio"></i></button>`).join('')}</div>
+  <h2 class="section-h">Reiniciar</h2><p class="sub">Borra todo el progreso de esta app.</p>
+  <button class="btn ghost" data-reset="1">Borrar progreso</button>`;
+}
+
+/* ---------- sheets ---------- */
+function closeSheet(){document.querySelector('.scrim')?.remove()}
+function openSheet(inner,keep){const old=keep&&document.querySelector('.scrim .sheet');if(old){old.innerHTML='<div class="grab"></div>'+inner;return old.parentNode} // keep: cambia el contenido sin volver a animar la entrada
+  closeSheet();const s=document.createElement('div');s.className='scrim';s.innerHTML=`<div class="sheet" role="dialog" aria-modal="true"><div class="grab"></div>${inner}</div>`;s.addEventListener('click',e=>{if(e.target===s)closeSheet()});document.body.appendChild(s);return s}
+function lessonSheet(id,keep){
+  const all=lessonsOf(S.track); const idx=all.findIndex(l=>l.id===id); const l=all[idx]; const u=TRACKS[S.track].units[l.unit];
+  const open=isOpen(l,idx,all), tk=S.track;
+  if(!open){
+    const s=openSheet(`<div class="eyebrow" style="color:var(--muted)">Unidad ${l.unit} · ${esc(u.title)}</div><h3>${esc(l.title)}</h3><p class="hint">Se abre cuando termines la lección anterior. Si ya dominas lo anterior, puedes abrirla ya.</p><div class="row"><button class="btn ghost" data-close>Volver</button><button class="btn ${tk}" data-unlock="${l.id}">Abrir igual</button></div>`);
+    return;
+  }
+  const n=doneCount(l), tot=l.tasks.length, col=tk==='cyber'?'var(--cyber)':'var(--eng)';
+  const s=openSheet(`<div class="eyebrow" style="color:${col}">Unidad ${l.unit} · ${esc(u.title)}${l.test?' · Prueba':''}</div><h3>${esc(l.title)}</h3>
+   <div class="bar"><i style="width:${n/tot*100}%"></i></div>
+   <p class="hint" data-count>${n} de ${tot}. El orden es libre.</p>
+   <div class="tasks">${l.tasks.map(t=>`<div class="task ${S.done[t.id]?'on':''}"><button class="box" data-task="${t.id}" aria-pressed="${!!S.done[t.id]}" aria-label="Marcar como hecha">${I.check}</button><span class="txt" data-task-txt="${t.id}">${t.kind==='g'?'<span class="tag game">Modo juego</span><br>':t.kind==='t'?'<span class="tag test">Prueba</span><br>':t.kind==='o'?'<span class="tag opt">Opcional</span><br>':''}${t.html}</span><span class="xp">+${taskXP(t)}</span></div>`).join('')}</div>
+   <p class="hint" style="margin-top:14px">¿Una tarea larga? No tienes que terminarla hoy. Registra cada rato que estudies y tu racha sigue.</p>
+   <div class="row" style="margin-top:0"><button class="btn ghost" data-session="${l.id}">Estudié 25 min · +10</button><button class="btn ${tk}" data-close>Listo</button></div>`,keep);
+}
+// Tras marcar una tarea: actualiza la hoja abierta en su sitio, para que la casilla y la barra se animen.
+function patchLesson(l){
+  const sh=document.querySelector('.sheet'); if(!sh) return;
+  const n=doneCount(l), tot=l.tasks.length;
+  l.tasks.forEach(t=>{const b=sh.querySelector(`[data-task="${t.id}"]`); if(!b) return; const on=!!S.done[t.id]; b.setAttribute('aria-pressed',on); b.closest('.task').classList.toggle('on',on)});
+  const bar=sh.querySelector('.bar i'); if(bar) bar.style.width=n/tot*100+'%';
+  const c=sh.querySelector('[data-count]'); if(c) c.textContent=`${n} de ${tot}. El orden es libre.`;
+}
+function tipSheet(ui){const u=TRACKS[S.track].units[ui];openSheet(`<div class="eyebrow" style="color:var(--muted)">Unidad ${ui} · ¿De qué va esto?</div><h3>${esc(u.title)}</h3><p>${esc(u.easy)}</p><p><b>Meta:</b> ${esc(u.goal)}</p>${u.tip?`<p><b>Consejo:</b> ${u.tip}</p>`:''}<p class="hint">¿Una palabra que no entiendes? Búscala en Diccionario, abajo.</p><div class="row"><button class="btn ${S.track}" data-close>Entendido</button></div>`)}
+function introSheet(){openSheet(`<div class="intro"><div class="eyebrow" style="color:var(--cyber)">Cómo funciona</div><h3>Estudia cuando puedas, no a una hora fija</h3><ol>
+ <li><b>Tienes dos rutas:</b> Ciber e Inglés. Cambia entre ellas arriba a la izquierda.</li>
+ <li><b>Toca el círculo que dice Empezar.</b> Cada lección tiene tareas; márcalas cuando las termines, en el orden que quieras.</li>
+ <li><b>¿Estudiaste un rato sin terminar nada?</b> Toca "Estudié 25 min". También cuenta.</li>
+ <li><b>Llega a tu meta del día</b> y la racha sube. Si fallas un día, un protector la cuida.</li>
+ <li><b>¿No entiendes una palabra?</b> Búscala en Diccionario, en la barra de abajo.</li></ol></div>
+ <div class="row"><button class="btn cyber" data-intro="1">Empezar</button></div>`)}
+
+function celebrate(title,sub,icon,color){
+  const c=document.createElement('div');c.className='celebrate';
+  c.innerHTML=`<div class="big">${icon}</div><h2>${esc(title)}</h2><p class="hint" style="font-size:16px;max-width:340px">${esc(sub)}</p><button class="btn ${S.track}" data-celebrate-close>Continuar</button>`;
+  const cols=['var(--cyber)','var(--eng)','var(--gold)','var(--ok)','var(--flame)'];
+  for(let i=0;i<40;i++){const p=document.createElement('i');p.className='confetti';p.style.left=Math.random()*100+'%';p.style.background=cols[i%5];p.style.animationDuration=(1.6+Math.random()*1.6)+'s';p.style.animationDelay=(Math.random()*.4)+'s';c.appendChild(p)}
+  document.body.appendChild(c);
+}
+
+/* ---------- events ---------- */
+document.addEventListener('click',e=>{
+  if(e.target.closest('a')) return; // links open normally
+  const dc=e.target.closest('[data-dcat]');if(dc){dcat=+dc.dataset.dcat;document.querySelectorAll('[data-dcat]').forEach(b=>b.setAttribute('aria-pressed',b===dc));filterDict();return}
+  const el=e.target.closest('[data-lesson],[data-task],[data-task-txt],[data-session],[data-intro],[data-close],[data-unlock],[data-tip],[data-dq],[data-wq],[data-goal],[data-reset],[data-confirm-reset],[data-celebrate-close],[data-tab],#t-cyber,#t-eng');
+  if(!el) return;
+  if(el.id==='t-cyber'||el.id==='t-eng'){S.track=el.id==='t-cyber'?'cyber':'eng';save();render();scrollTo(0,0);return}
+  if(el.dataset.tab){tab=el.dataset.tab;render();scrollTo(0,0);return}
+  if(el.dataset.lesson){lessonSheet(el.dataset.lesson);return}
+  if(el.dataset.tip){tipSheet(+el.dataset.tip);return}
+  if('close' in el.dataset){closeSheet();return}
+  if('celebrateClose' in el.dataset){el.closest('.celebrate').remove();return}
+  if(el.dataset.unlock){S.unlocked[el.dataset.unlock]=1;save();render();lessonSheet(el.dataset.unlock,true);return}
+  if(el.dataset.intro){S.seenIntro=1;save();closeSheet();return}
+  if(el.dataset.session){const t=today();S.sessions[t]=(S.sessions[t]||0)+1;gainXP(10);save();render();if(el.closest('.sheet'))lessonSheet(el.dataset.session,true);return}
+  if(el.dataset.task||el.dataset.taskTxt){
+    const id=el.dataset.task||el.dataset.taskTxt; const l=lessonsOf(S.track).find(x=>x.tasks.some(t=>t.id===id)); const t=l.tasks.find(t=>t.id===id);
+    const was=isDone(l);
+    if(S.done[id]){delete S.done[id];gainXP(-taskXP(t))} else {S.done[id]=1;gainXP(taskXP(t))}
+    save(); render(); patchLesson(l);
+    if(!was&&isDone(l)){closeSheet();gainXP(20);save();render();celebrate(l.test?'¡Prueba superada!':'¡Lección completa!',l.test?`Cerraste la unidad ${TRACKS[S.track].units[l.unit].title}. +20 XP de bonus.`:'+20 XP de bonus. La siguiente lección ya está abierta.',l.test?I.trophy:I.star,'var(--gold)')}
+    return;
+  }
+  if(el.dataset.dq){const q=DAILY.find(q=>q.id===el.dataset.dq);if(S.dq.done[q.id]){delete S.dq.done[q.id];gainXP(-q.xp)}else{S.dq.done[q.id]=1;gainXP(q.xp)}save();fresh=q.id;render();fresh=null;return}
+  if(el.dataset.wq){const q=WEEKLY.find(q=>q.id===el.dataset.wq);const cur=S.wq.n[q.id]||0;if(cur>=q.target){S.wq.n[q.id]=0;gainXP(-q.xp)}else{S.wq.n[q.id]=cur+1;if(cur+1>=q.target)gainXP(q.xp)}save();fresh=q.id;render();fresh=null;return}
+  if(el.dataset.goal){S.goal=+el.dataset.goal;save();render();return}
+  if(el.dataset.reset){openSheet(`<h3>¿Borrar todo el progreso?</h3><p class="hint">Se pierden tus XP, tu racha y las lecciones marcadas. No se puede deshacer.</p><div class="row"><button class="btn ghost" data-close>Cancelar</button><button class="btn danger" data-confirm-reset="1">Borrar</button></div>`);return}
+  if(el.dataset.confirmReset){S=structuredClone(DEFAULT);reconcile();save();closeSheet();render();return}
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeSheet();document.querySelector('.celebrate')?.remove()}});
+
+/* ---------- boot ---------- */
+function boot(saved){
+  if(saved&&saved.v===1) S=Object.assign(structuredClone(DEFAULT),JSON.parse(JSON.stringify(saved)));
+  reconcile(); render();
+  if(!S.seenIntro && !document.querySelector('.scrim')) introSheet();
+}
+try{const raw=localStorage.getItem('ruta-analista'); boot(raw?JSON.parse(raw):null)}catch(e){boot(null)}
+$('#savenote').textContent='Tu progreso se guarda en este navegador.';
+(async()=>{
+  try{
+    const db=await window.claude?.use?.('db'); const user=await window.claude?.use?.('user');
+    if(!db||!user) return;
+    const uid=await user.id(); if(!uid) return;
+    store=db.collection('data/users/'+uid).doc('progreso');
+    const snap=await store.get();
+    if(snap.exists){boot(snap.data());}
+    else {save();}
+    $('#savenote').textContent='Tu progreso se guarda en tu cuenta: lo ves igual en el Mac y en el iPad.';
+  }catch(e){}
+})();
+</script>
+
+</body>
+</html>
